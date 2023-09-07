@@ -37,7 +37,8 @@ func ArticleListHandler(w http.ResponseWriter, req *http.Request) {
 		var err error
 		page, err = strconv.Atoi(p[0])
 		if err != nil {
-			http.Error(w, "invalid query parameter", http.StatusBadRequest)
+
+			http.Error(w, "invalid query parameterasd", http.StatusBadRequest)
 			return
 		}
 	} else {
