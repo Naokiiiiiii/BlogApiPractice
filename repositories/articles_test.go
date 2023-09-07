@@ -63,30 +63,30 @@ func TestSelectArticleList(t *testing.T) {
 	}
 }
 
-// func TestInsertArticle(t *testing.T) {
-// 	article := models.Article{
-// 		Title:    "insertTest",
-// 		Contents: "testest",
-// 		UserName: "naoki",
-// 	}
+func TestInsertArticle(t *testing.T) {
+	article := models.Article{
+		Title:    "insertTest",
+		Contents: "testest",
+		UserName: "naoki",
+	}
 
-// 	expectedArticleTitle := "insertTest"
-// 	newArticle, err := repositories.InsertArticle(testDB, article)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
-// 	if newArticle.Title != expectedArticleTitle {
-// 		t.Errorf("new article id is expected %s but got %s\n", expectedArticleTitle, newArticle.Title)
-// 	}
+	expectedArticleTitle := "insertTest"
+	newArticle, err := repositories.InsertArticle(testDB, article)
+	if err != nil {
+		t.Error(err)
+	}
+	if newArticle.Title != expectedArticleTitle {
+		t.Errorf("new article id is expected %s but got %s\n", expectedArticleTitle, newArticle.Title)
+	}
 
-// 	t.Cleanup(func() {
-// 		const sqlStr = `
-// 			delete from articles
-// 			where title = ? and contents = ? and username = ?
-// 		`
-// 		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserName)
-// 	})
-// }
+	t.Cleanup(func() {
+		const sqlStr = `
+			delete from articles
+			where title = ? and contents = ? and username = ?
+		`
+		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserName)
+	})
+}
 
 func TestUpdateNiceNum(t *testing.T) {
 	articleID := 1
