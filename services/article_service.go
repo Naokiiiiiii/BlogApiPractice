@@ -10,20 +10,56 @@ import (
 )
 
 func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) {
+	var article models.Article
+	var commentList []models.Comment
+	var articleGetErr, commentGetErr error
 
-	article, err := repositories.SelectArticleDetail(s.db, articleID)
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			err = apperrors.NAData.Wrap(err, "no data")
+	type articleResult struct {
+		article models.Article
+		err     error
+	}
+
+	articleChan := make(chan articleResult)
+	defer close(articleChan)
+
+	go func(ch chan<- articleResult, db *sql.DB, articleID int) {
+		article, err := repositories.SelectArticleDetail(db, articleID)
+		ch <- articleResult{article: article, err: err}
+	}(articleChan, s.db, articleID)
+
+	type commentResult struct {
+		commentList *[]models.Comment
+		err         error
+	}
+
+	commentChan := make(chan commentResult)
+	defer close(commentChan)
+
+	go func(ch chan<- commentResult, db *sql.DB, articleID int) {
+		commentList, err := repositories.SelectCommentList(db, articleID)
+		ch <- commentResult{commentList: &commentList, err: err}
+	}(commentChan, s.db, articleID)
+
+	for i := 0; i < 2; i++ {
+		select {
+		case ar := <-articleChan:
+			article, articleGetErr = ar.article, ar.err
+		case cr := <-commentChan:
+			commentList, commentGetErr = *cr.commentList, cr.err
+		}
+	}
+
+	if articleGetErr != nil {
+		if errors.Is(articleGetErr, sql.ErrNoRows) {
+			err := apperrors.NAData.Wrap(articleGetErr, "no data")
 			return models.Article{}, err
 		}
-		err = apperrors.GetDataFailed.Wrap(err, "no data")
+		err := apperrors.GetDataFailed.Wrap(articleGetErr, "no data")
 		return models.Article{}, err
 	}
 
-	commentList, err := repositories.SelectCommentList(s.db, articleID)
-	if err != nil {
-		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
+	if commentGetErr != nil {
+		err := apperrors.GetDataFailed.Wrap(commentGetErr, "fail to get data")
 		return models.Article{}, err
 	}
 
