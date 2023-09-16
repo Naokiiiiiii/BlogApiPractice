@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/api"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 

@@ -13,4 +13,9 @@ const (
 
 	ReqBodyDecodeFailed ErrCode = "R001"
 	BadParam            ErrCode = "R002"
+
+	RequiredAuthorizationHeader ErrCode = "A001"
+	CannotMakeValidatior        ErrCode = "A001"
+	Unauthorizated              ErrCode = "A003"
+	NotMatchUser                ErrCode = "A004"
 )

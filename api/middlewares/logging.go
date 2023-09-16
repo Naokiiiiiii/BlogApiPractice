@@ -4,6 +4,8 @@ import (
 	"context"
 	"log"
 	"net/http"
+
+	"github.com/Naokiiiiiii/BlogApiPractice/api/common"
 )
 
 type resLoggingWriter struct {
@@ -23,7 +25,7 @@ func (rsw *resLoggingWriter) WriteHeader(code int) {
 func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 
-		traceID := newTraceID()
+		traceID := common.GetTraceID(req.Context())
 
 		log.Printf("[%d]%s %s\n", traceID, req.RequestURI, req.Method)
 
