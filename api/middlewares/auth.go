@@ -3,8 +3,8 @@ package middlewares
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/api/common"
@@ -12,17 +12,9 @@ import (
 	"google.golang.org/api/idtoken"
 )
 
-const (
-	googleClientID = ""
-)
-
-type userNameKey struct{}
-
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		authorization := req.Header.Get("Authorization")
-		fmt.Println(req)
-		fmt.Println(authorization)
 
 		authHeaders := strings.Split(authorization, " ")
 		if len(authHeaders) != 2 {
@@ -46,7 +38,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		payload, err := tokenValidator.Validate(context.Background(), idToken, googleClientID)
+		payload, err := tokenValidator.Validate(context.Background(), idToken, os.Getenv("GOOGLE_CLIANT_ID"))
 		if err != nil {
 			err = apperrors.Unauthorizated.Wrap(err, "invalid id token")
 			apperrors.ErrorHandler(w, req, err)

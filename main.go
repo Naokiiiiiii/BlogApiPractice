@@ -5,19 +5,21 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/api"
 	_ "github.com/go-sql-driver/mysql"
-)
-
-var (
-	dbUser     = "blog"     //os.Getenv("DB_USER")
-	dbPassword = "blogpass" //os.Getenv("DB_PASSWORD")
-	dbDatabase = "blogdb"   //os.Getenv("DB_NAME")
-	dbConn     = fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", dbUser, dbPassword, dbDatabase)
+	"github.com/joho/godotenv"
 )
 
 func main() {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	dbConn := fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", os.Getenv("USERNAME"), os.Getenv("USERPASS"), os.Getenv("DATABASE"))
 
 	db, err := sql.Open("mysql", dbConn)
 	if err != nil {
