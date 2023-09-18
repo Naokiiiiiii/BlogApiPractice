@@ -112,7 +112,7 @@ func (s *MyAppService) PostNiceService(article models.Article) (models.Article, 
 		ID:        article.ID,
 		Title:     article.Title,
 		Contents:  article.Contents,
-		UserName:  article.UserName,
+		UserID:    article.UserID,
 		NiceNum:   article.NiceNum + 1,
 		CreatedAt: article.CreatedAt,
 	}, nil
