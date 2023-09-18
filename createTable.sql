@@ -11,7 +11,6 @@ create table if not exists articles (
 	title varchar(100) not null,
 	contents text not null,
   user_id integer unsigned not null,
-	nice integer not null,
 	created_at datetime,
   foreign key (user_id) references users(user_id)
 );
