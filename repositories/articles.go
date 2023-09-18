@@ -12,14 +12,14 @@ const (
 
 func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 	const sqlStr = `
-	insert into articles (title, contents, username, nice, created_at) values
-	(?, ?, ?, 0, now());
+	insert into articles (title, contents, user_id, created_at) values
+	(?, ?, ?, now());
 	`
 
 	var newArticle models.Article
-	newArticle.Title, newArticle.Contents, newArticle.UserName = article.Title, article.Contents, article.UserName
+	newArticle.Title, newArticle.Contents, newArticle.UserID = article.Title, article.Contents, article.UserID
 
-	result, err := db.Exec(sqlStr, article.Title, article.Contents, article.UserName)
+	result, err := db.Exec(sqlStr, article.Title, article.Contents, article.UserID)
 	if err != nil {
 		return models.Article{}, err
 	}
@@ -33,7 +33,7 @@ func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 
 func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 	const sqlStr = `
-		select article_id, title, contents, username, nice
+		select article_id, title, contents, username
 		from articles
 		limit ? offset ?;
 	`
@@ -47,7 +47,7 @@ func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 	articleArray := make([]models.Article, 0)
 	for rows.Next() {
 		var article models.Article
-		rows.Scan(&article.ID, &article.Title, &article.Contents, &article.UserName, &article.NiceNum)
+		rows.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID)
 
 		articleArray = append(articleArray, article)
 	}
@@ -59,8 +59,8 @@ func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 	const sqlStr = `
 		select *
 		from articles
-		where article_id = ?;
 	`
+
 	row := db.QueryRow(sqlStr, articleID)
 	if err := row.Err(); err != nil {
 		return models.Article{}, err
@@ -68,7 +68,7 @@ func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 
 	var article models.Article
 	var createdTime sql.NullTime
-	err := row.Scan(&article.ID, &article.Title, &article.Contents, &article.UserName, &article.NiceNum, &createdTime)
+	err := row.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID, &createdTime)
 	if err != nil {
 		return models.Article{}, err
 	}

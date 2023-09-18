@@ -41,8 +41,8 @@ func TestSelectarticle(t *testing.T) {
 			if got.Contents != test.expected.Contents {
 				t.Errorf("Content: get %s but want %s\n", got.Contents, test.expected.Contents)
 			}
-			if got.UserName != test.expected.UserName {
-				t.Errorf("UserName: get %s but want %s\n", got.UserName, test.expected.UserName)
+			if got.UserID != test.expected.UserID {
+				t.Errorf("UserName: get %d but want %d\n", got.UserID, test.expected.UserID)
 			}
 			if got.NiceNum != test.expected.NiceNum {
 				t.Errorf("NiceNum: get %d but want %d\n", got.NiceNum, test.expected.NiceNum)
@@ -67,7 +67,7 @@ func TestInsertArticle(t *testing.T) {
 	article := models.Article{
 		Title:    "insertTest",
 		Contents: "testest",
-		UserName: "naoki",
+		UserID:   1,
 	}
 
 	expectedArticleTitle := "insertTest"
@@ -82,9 +82,9 @@ func TestInsertArticle(t *testing.T) {
 	t.Cleanup(func() {
 		const sqlStr = `
 			delete from articles
-			where title = ? and contents = ? and username = ?
+			where title = ? and contents = ? and user_id = ?
 		`
-		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserName)
+		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserID)
 	})
 }
 
