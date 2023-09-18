@@ -33,8 +33,9 @@ func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 
 func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 	const sqlStr = `
-		select article_id, title, contents, username
+		select articles.article_id, articles.title, articles.contents, articles.user_id, users.username
 		from articles
+		inner join users on articles.user_id = users.user_id
 		limit ? offset ?;
 	`
 
@@ -47,7 +48,7 @@ func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 	articleArray := make([]models.Article, 0)
 	for rows.Next() {
 		var article models.Article
-		rows.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID)
+		rows.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID, &article.UserName)
 
 		articleArray = append(articleArray, article)
 	}
@@ -57,8 +58,10 @@ func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 
 func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 	const sqlStr = `
-		select *
+		select articles.*, users.username
 		from articles
+		inner join users on articles.user_id = users.user_id
+		where article_id = ?;
 	`
 
 	row := db.QueryRow(sqlStr, articleID)
@@ -68,7 +71,7 @@ func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 
 	var article models.Article
 	var createdTime sql.NullTime
-	err := row.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID, &createdTime)
+	err := row.Scan(&article.ID, &article.Title, &article.Contents, &article.ID, &createdTime, &article.UserName)
 	if err != nil {
 		return models.Article{}, err
 	}
