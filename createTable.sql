@@ -29,6 +29,7 @@ create table if not exists nice (
   nice_id integer unsigned auto_increment
   article_id integer unsigned not null
   user_id integer unsigned not null
+  created_at datetime
   foreign key (article_id) references articles(article_id)
   foreign key (user_id) references users(user_id)
 )
