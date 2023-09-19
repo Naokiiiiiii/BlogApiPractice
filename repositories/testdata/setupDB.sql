@@ -25,14 +25,14 @@ create table if not exists comments (
   foreign key (user_id) references users(user_id)
 );
 
-create table if not exists nice (
+create table if not exists nices (
   nice_id integer unsigned auto_increment
   article_id integer unsigned not null
   user_id integer unsigned not null
   created_at datetime
   foreign key (article_id) references articles(article_id)
   foreign key (user_id) references users(user_id)
-)
+);
 
 insert into users (username, email, created_at) values ('naoki', 'exsample@gmail.com', now())
 
@@ -44,4 +44,4 @@ insert into comments (article_id, user_id, message, created_at) values (1, 1, '1
 
 insert into comments (article_id, user_id, message, created_at) values (1, 1, '2nd comment yeah', now());
 
-insert into nice (article_id, user_id, created_at) values (1, 1, now())
+insert into nices (article_id, user_id, created_at) values (1, 1, now())

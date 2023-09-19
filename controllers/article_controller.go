@@ -89,18 +89,3 @@ func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *htt
 
 	json.NewEncoder(w).Encode(article)
 }
-
-func (c *ArticleController) PostNiceHandler(w http.ResponseWriter, req *http.Request) {
-	var reqArticle models.Article
-	if err := json.NewDecoder(req.Body).Decode(&reqArticle); err != nil {
-		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
-		apperrors.ErrorHandler(w, req, err)
-	}
-
-	article, err := c.service.PostNiceService(reqArticle)
-	if err != nil {
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-	json.NewEncoder(w).Encode(article)
-}
