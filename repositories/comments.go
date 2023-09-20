@@ -8,13 +8,13 @@ import (
 
 func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 	const sqlStr = `
-		insert into comments (article_id, message, created_at) values
-		(?, ?, now());
+		insert into comments (article_id, user_id, message, created_at) values
+		(?, ?, ?, now());
 	`
 	var newComment models.Comment
-	newComment.ArticleID, newComment.Message = comment.ArticleID, comment.Message
+	newComment.ArticleID, newComment.UserID, newComment.Message = comment.ArticleID, comment.UserID, comment.Message
 
-	result, err := db.Exec(sqlStr, comment.ArticleID, comment.Message)
+	result, err := db.Exec(sqlStr, comment.ArticleID, comment.UserID, comment.Message)
 	if err != nil {
 		return models.Comment{}, err
 	}
