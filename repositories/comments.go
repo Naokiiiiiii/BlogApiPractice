@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 )
@@ -27,8 +28,9 @@ func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 
 func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 	const sqlStr = `
-		select *
+		select comments.*, users.username
 		from comments
+		inner join users on comments.user_id = users.user_id
 		where article_id = ?;
 	`
 
@@ -42,7 +44,7 @@ func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 	for rows.Next() {
 		var comment models.Comment
 		var createdTime sql.NullTime
-		rows.Scan(&comment.CommentID, &comment.ArticleID, &comment.Message, &createdTime)
+		rows.Scan(&comment.CommentID, &comment.ArticleID, &comment.UserID, &comment.UserName, &comment.Message, &createdTime)
 
 		if createdTime.Valid {
 			comment.CreatedAt = createdTime.Time
@@ -50,6 +52,7 @@ func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 
 		commentArray = append(commentArray, comment)
 	}
+	fmt.Println(commentArray)
 
 	return commentArray, nil
 }
