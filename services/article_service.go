@@ -12,7 +12,8 @@ import (
 func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) {
 	var article models.Article
 	var commentList []models.Comment
-	var articleGetErr, commentGetErr error
+	var niceList []models.Nice
+	var articleGetErr, commentGetErr, niceGetErr error
 
 	type articleResult struct {
 		article models.Article
@@ -40,12 +41,26 @@ func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) 
 		ch <- commentResult{commentList: &commentList, err: err}
 	}(commentChan, s.db, articleID)
 
-	for i := 0; i < 2; i++ {
+	type niceResult struct {
+		niceList *[]models.Nice
+		err      error
+	}
+
+	niceChan := make(chan niceResult)
+	defer close(niceChan)
+	go func(ch chan<- niceResult, db *sql.DB, articleID int) {
+		niceList, err := repositories.SelectArticleNiceList(db, articleID)
+		ch <- niceResult{niceList: &niceList, err: err}
+	}(niceChan, s.db, articleID)
+
+	for i := 0; i < 3; i++ {
 		select {
 		case ar := <-articleChan:
 			article, articleGetErr = ar.article, ar.err
 		case cr := <-commentChan:
 			commentList, commentGetErr = *cr.commentList, cr.err
+		case nr := <-niceChan:
+			niceList, niceGetErr = *nr.niceList, nr.err
 		}
 	}
 
@@ -63,7 +78,13 @@ func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) 
 		return models.Article{}, err
 	}
 
+	if niceGetErr != nil {
+		err := apperrors.GetDataFailed.Wrap(niceGetErr, "fail to get data")
+		return models.Article{}, err
+	}
+
 	article.CommentList = append(article.CommentList, commentList...)
+	article.NiceNum = len(niceList)
 
 	return article, nil
 }
