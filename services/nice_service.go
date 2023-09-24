@@ -6,7 +6,7 @@ import (
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
 )
 
-func (s *MyAppService) PostNiceSerice(nice models.Nice) (models.Nice, error) {
+func (s *MyAppService) PostNiceService(nice models.Nice) (models.Nice, error) {
 	newNice, err := repositories.InsertNice(s.db, nice)
 	if err != nil {
 		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
