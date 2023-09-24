@@ -12,6 +12,6 @@ type CommentServicer interface {
 	PostCommentService(comment models.Comment) (models.Comment, error)
 }
 
-type Niceservicer interface {
-	PostNiceSerice(nice models.Nice) (models.Nice, error)
+type NiceServicer interface {
+	PostNiceService(nice models.Nice) (models.Nice, error)
 }

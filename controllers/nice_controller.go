@@ -10,10 +10,10 @@ import (
 )
 
 type NiceController struct {
-	services services.Niceservicer
+	services services.NiceServicer
 }
 
-func NewNiceController(s services.Niceservicer) *NiceController {
+func NewNiceController(s services.NiceServicer) *NiceController {
 	return &NiceController{services: s}
 }
 
@@ -24,7 +24,7 @@ func (n *NiceController) PostNiceHandler(w http.ResponseWriter, req *http.Reques
 		apperrors.ErrorHandler(w, req, err)
 	}
 
-	nice, err := n.services.PostNiceSerice(reqNice)
+	nice, err := n.services.PostNiceService(reqNice)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
