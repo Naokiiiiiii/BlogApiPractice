@@ -10,10 +10,10 @@ import (
 )
 
 type NiceController struct {
-	services services.Niceservicer
+	services services.NiceServicer
 }
 
-func NewNiceController(s services.Niceservicer) *NiceController {
+func NewNiceController(s services.NiceServicer) *NiceController {
 	return &NiceController{services: s}
 }
 
