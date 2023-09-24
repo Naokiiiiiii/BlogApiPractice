@@ -35,7 +35,7 @@ func setup() error {
 		return err
 	}
 	if err := setupTestData(); err != nil {
-		fmt.Println("setup")
+		fmt.Println("setup", err)
 		return err
 	}
 	return nil
