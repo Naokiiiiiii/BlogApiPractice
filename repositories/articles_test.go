@@ -42,10 +42,10 @@ func TestSelectarticle(t *testing.T) {
 				t.Errorf("Content: get %s but want %s\n", got.Contents, test.expected.Contents)
 			}
 			if got.UserID != test.expected.UserID {
-				t.Errorf("UserName: get %d but want %d\n", got.UserID, test.expected.UserID)
+				t.Errorf("UserID: get %d but want %d\n", got.UserID, test.expected.UserID)
 			}
-			if got.NiceNum != test.expected.NiceNum {
-				t.Errorf("NiceNum: get %d but want %d\n", got.NiceNum, test.expected.NiceNum)
+			if got.UserName != test.expected.UserName {
+				t.Errorf("UserName: get %s but want %s\n", got.UserName, test.expected.UserName)
 			}
 		})
 	}
@@ -86,27 +86,4 @@ func TestInsertArticle(t *testing.T) {
 		`
 		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserID)
 	})
-}
-
-func TestUpdateNiceNum(t *testing.T) {
-	articleID := 1
-	before, err := repositories.SelectArticleDetail(testDB, articleID)
-	if err != nil {
-		t.Error(err)
-	}
-
-	err = repositories.UpdateNiceNum(testDB, articleID)
-	if err != nil {
-		t.Error(err)
-	}
-
-	after, err := repositories.SelectArticleDetail(testDB, articleID)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if after.NiceNum-before.NiceNum != 1 {
-		t.Error("fail to update nice num")
-	}
-
 }
