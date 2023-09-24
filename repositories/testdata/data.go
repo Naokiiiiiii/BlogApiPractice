@@ -9,14 +9,12 @@ var ArticleTestData = []models.Article{
 		Contents: "This is my first blog",
 		UserID:   1,
 		UserName: "naoki",
-		NiceNum:  2,
 	},
 	models.Article{
 		ID:       2,
-		Title:    "2nd",
-		Contents: "Second blog post",
-		UserID:   2,
+		Title:    "secondPost",
+		Contents: "This is my second blog",
+		UserID:   1,
 		UserName: "naoki",
-		NiceNum:  4,
 	},
 }
