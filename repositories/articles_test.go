@@ -10,7 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func TestSelectarticle(t *testing.T) {
+func TestSelectArticle(t *testing.T) {
 	tests := []struct {
 		testTitle string
 		expected  models.Article
