@@ -18,3 +18,11 @@ var ArticleTestData = []models.Article{
 		UserName: "naoki",
 	},
 }
+
+var NiceTestData = []models.Nice{
+	models.Nice{
+		NiceID:    1,
+		UserID:    1,
+		ArticleID: 1,
+	},
+}

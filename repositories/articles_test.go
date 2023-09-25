@@ -76,7 +76,7 @@ func TestInsertArticle(t *testing.T) {
 		t.Error(err)
 	}
 	if newArticle.Title != expectedArticleTitle {
-		t.Errorf("new article id is expected %s but got %s\n", expectedArticleTitle, newArticle.Title)
+		t.Errorf("new article title is expected %s but got %s\n", expectedArticleTitle, newArticle.Title)
 	}
 
 	t.Cleanup(func() {
