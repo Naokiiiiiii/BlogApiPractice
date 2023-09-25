@@ -5,17 +5,19 @@ import (
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
-	"github.com/Naokiiiiiii/BlogApiPractice/repositories/testdata"
 )
 
 func TestSelectNiceList(t *testing.T) {
-	expectedNum := len(testdata.NiceTestData)
-	got, err := repositories.SelectArticleNiceList(testDB, 1)
+	articleID := 1
+	got, err := repositories.SelectArticleNiceList(testDB, articleID)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if num := len(got); num != expectedNum {
-		t.Errorf("want %d but got %d nices \n", expectedNum, num)
+
+	for _, nice := range got {
+		if nice.ArticleID != articleID {
+			t.Errorf("want nice of articleID %d but got ID %d\n", articleID, nice.ArticleID)
+		}
 	}
 }
 
