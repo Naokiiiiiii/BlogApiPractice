@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"database/sql"
-	"fmt"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 )
@@ -52,7 +51,6 @@ func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 
 		commentArray = append(commentArray, comment)
 	}
-	fmt.Println(commentArray)
 
 	return commentArray, nil
 }
