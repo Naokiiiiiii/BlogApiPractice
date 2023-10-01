@@ -2,12 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
-	"errors"
 	"io"
 	"net/http"
 	"strconv"
 
-	"github.com/Naokiiiiiii/BlogApiPractice/api/common"
 	"github.com/Naokiiiiiii/BlogApiPractice/apperrors"
 	"github.com/Naokiiiiiii/BlogApiPractice/controllers/services"
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
@@ -39,12 +37,12 @@ func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.
 		return
 	}
 
-	authedUserName := common.GetUserName(req.Context())
-	if reqArticle.UserName != authedUserName {
-		err := apperrors.NotMatchUser.Wrap(errors.New("does not match reqBody user and idtoken user"), "invalid parameter")
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
+	// authedUserName := common.GetUserName(req.Context())
+	// if reqArticle.UserName != authedUserName {
+	// 	err := apperrors.NotMatchUser.Wrap(errors.New("does not match reqBody user and idtoken user"), "invalid parameter")
+	// 	apperrors.ErrorHandler(w, req, err)
+	// 	return
+	// }
 
 	json.NewEncoder(w).Encode(article)
 }
