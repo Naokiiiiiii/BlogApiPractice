@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: Blog API
+  description: Blog API Practice
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8000
+    description: 'ローカル環境'
+
+tags:
+  - name: 'users'
+    description: 'ユーザーの操作'
+  - name: 'articles'
+    description: '記事の操作'
+  - name: 'comments'
+    description: 'コメントの操作'
+  - name: 'nices'
+    description: 'いいねの操作'
+
+paths:
+  # /user:
+  #   get:
+  #     summary: 自身のユーザー情報を返す
+  #     tags: ['users']
+  #     responses:
+  #       '200':
+  #         description: Successful Response
+  #         content:
+  #           application/json:
+  #             schema:
+  #               '$ref': '#/components/schemas/UserResponse'
+  /article:
+    post:
+      summary: 記事を投稿する
+      tags: ['articles']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postArticleRequest'
+        required: true
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/article'
+
+components:
+  schemas:
+    article:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        contents:
+          type: string
+        userID:
+          type: integer
+        userName:
+          type: string
+        niceNum:
+          type: integer
+        # commentList
+        createdAt:
+          type: string
+
+    postArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        contents:
+          type: string
+        user_id:
+          type: string
+      required:
+        - title
+        - contents
+        - user_id
