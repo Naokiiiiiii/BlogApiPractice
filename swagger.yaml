@@ -65,6 +65,41 @@ paths:
               schema:
                 type: array
                 $ref: '#/components/schemas/getArticleListResponse'
+  /article/{article_id}:
+    get:
+      summary: 指定したidの記事詳細を取得
+      tags: ['articles']
+      parameters:
+        - in: path
+          name: article_id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/getArticleDetailResponse'
+  /comment:
+    post:
+      summary: 指定した記事にコメントを登録する
+      tags: ['comments']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postCommentRequest'
+        required: true
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
 
 components:
   schemas:
@@ -83,8 +118,22 @@ components:
           type: string
         niceNum:
           type: integer
-        # commentList
         createdAt:
+          type: string
+        commentList:
+          type: array
+          $ref: '#/components/schemas/comment'
+
+    comment:
+      type: object
+      properties:
+        comment_id:
+          type: number
+        article_id:
+          type: number
+        user_id:
+          type: number
+        message:
           type: string
 
     postArticleRequest:
@@ -102,9 +151,28 @@ components:
         - user_id
 
     getArticleListResponse:
+      allOf:
+        - type: object
+          properties:
+            articles:
+              type: array
+              items:
+                $ref: '#/components/schemas/article'
+
+    getArticleDetailResponse:
       type: object
       properties:
         articles:
           type: array
           items:
             $ref: '#/components/schemas/article'
+
+    postCommentRequest:
+      type: object
+      properties:
+        article_id:
+          type: number
+        user_id:
+          type: number
+        message:
+          type: string
