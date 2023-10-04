@@ -47,6 +47,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/article'
+  /article/list:
+    get:
+      summary: 記事一覧を取得する
+      tags: ['articles']
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/getArticleListResponse'
 
 components:
   schemas:
@@ -82,3 +100,11 @@ components:
         - title
         - contents
         - user_id
+
+    getArticleListResponse:
+      type: object
+      properties:
+        articles:
+          type: array
+          items:
+            $ref: '#/components/schemas/article'
