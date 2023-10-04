@@ -65,6 +65,24 @@ paths:
               schema:
                 type: array
                 $ref: '#/components/schemas/getArticleListResponse'
+  /article/{article_id}:
+    get:
+      summary: 指定したidの記事詳細を取得
+      tags: ['articles']
+      parameters:
+        - in: path
+          name: article_id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/article'
 
 components:
   schemas:
