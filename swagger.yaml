@@ -46,7 +46,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/article'
+                $ref: '#/components/schemas/postArticleResponse'
   /article/list:
     get:
       summary: 記事一覧を取得する
@@ -122,7 +122,8 @@ components:
           type: string
         commentList:
           type: array
-          $ref: '#/components/schemas/comment'
+          items:
+            $ref: '#/components/schemas/postCommentResponse'
 
     comment:
       type: object
@@ -150,6 +151,12 @@ components:
         - contents
         - user_id
 
+    postArticleResponse:
+      type: object
+      properties:
+        articles:
+          $ref: '#/components/schemas/article'
+
     getArticleListResponse:
       allOf:
         - type: object
@@ -176,3 +183,8 @@ components:
           type: number
         message:
           type: string
+    postCommentResponse:
+      type: object
+      properties:
+        comment:
+          $ref: '#/components/schemas/comment'
