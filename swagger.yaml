@@ -38,7 +38,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/article'
+              $ref: '#/components/schemas/postArticleRequest'
         required: true
       responses:
         '200':
@@ -46,7 +46,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/postArticleResponse'
+                $ref: '#/components/schemas/article'
   /article/list:
     get:
       summary: 記事一覧を取得する
@@ -177,10 +177,6 @@ components:
         - contents
         - user_id
 
-    postArticleResponse:
-      type: object
-      $ref: '#/components/schemas/article'
-
     getArticleListResponse:
       type: array
       items:
@@ -202,6 +198,12 @@ components:
           type: number
         message:
           type: string
+
+    postCommentResponse:
+      type: object
+      properties:
+        comment:
+          $ref: '#/components/schemas/comment'
 
     postNiceRequest:
       type: object
