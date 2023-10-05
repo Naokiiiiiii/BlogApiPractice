@@ -184,21 +184,16 @@ components:
           $ref: '#/components/schemas/article'
 
     getArticleListResponse:
-      allOf:
-        - type: object
-          properties:
-            articles:
-              type: array
-              items:
-                $ref: '#/components/schemas/article'
+      type: array
+      items:
+        type: object
+        $ref: '#/components/schemas/article'
 
     getArticleDetailResponse:
       type: object
-      properties:
-        articles:
-          type: array
-          items:
-            $ref: '#/components/schemas/article'
+      items:
+        type: object
+        $ref: '#/components/schemas/article'
 
     postCommentRequest:
       type: object
