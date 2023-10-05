@@ -100,6 +100,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/comment'
+  /nice:
+    post:
+      summary: 指定した記事にいいねを登録する
+      tags: ['nices']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postNiceRequest'
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postNiceResponse'
 
 components:
   schemas:
@@ -137,6 +153,16 @@ components:
         message:
           type: string
 
+    nice:
+      type: object
+      properties:
+        nice_id:
+          type: number
+        article_id:
+          type: number
+        user_id:
+          type: number
+
     postArticleRequest:
       type: object
       properties:
@@ -154,7 +180,7 @@ components:
     postArticleResponse:
       type: object
       properties:
-        articles:
+        article:
           $ref: '#/components/schemas/article'
 
     getArticleListResponse:
@@ -183,8 +209,23 @@ components:
           type: number
         message:
           type: string
+
     postCommentResponse:
       type: object
       properties:
         comment:
           $ref: '#/components/schemas/comment'
+
+    postNiceRequest:
+      type: object
+      properties:
+        article_id:
+          type: number
+        user_id:
+          type: number
+
+    postNiceResponse:
+      type: object
+      properties:
+        nice:
+          $ref: '#/components/schemas/nice'
