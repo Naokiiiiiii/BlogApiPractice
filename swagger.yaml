@@ -38,7 +38,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/postArticleRequest'
+              $ref: '#/components/schemas/article'
         required: true
       responses:
         '200':
@@ -179,9 +179,7 @@ components:
 
     postArticleResponse:
       type: object
-      properties:
-        article:
-          $ref: '#/components/schemas/article'
+      $ref: '#/components/schemas/article'
 
     getArticleListResponse:
       type: array
@@ -204,12 +202,6 @@ components:
           type: number
         message:
           type: string
-
-    postCommentResponse:
-      type: object
-      properties:
-        comment:
-          $ref: '#/components/schemas/comment'
 
     postNiceRequest:
       type: object
