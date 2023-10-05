@@ -82,7 +82,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/getArticleDetailResponse'
+                $ref: '#/components/schemas/article'
   /comment:
     post:
       summary: 指定した記事にコメントを登録する
@@ -179,12 +179,6 @@ components:
 
     getArticleListResponse:
       type: array
-      items:
-        type: object
-        $ref: '#/components/schemas/article'
-
-    getArticleDetailResponse:
-      type: object
       items:
         type: object
         $ref: '#/components/schemas/article'
