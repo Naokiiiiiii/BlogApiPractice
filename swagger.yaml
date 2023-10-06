@@ -1,0 +1,206 @@
+openapi: 3.0.0
+info:
+  title: Blog API
+  description: Blog API Practice
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8000
+    description: 'ローカル環境'
+
+tags:
+  - name: 'users'
+    description: 'ユーザーの操作'
+  - name: 'articles'
+    description: '記事の操作'
+  - name: 'comments'
+    description: 'コメントの操作'
+  - name: 'nices'
+    description: 'いいねの操作'
+
+paths:
+  # /user:
+  #   get:
+  #     summary: 自身のユーザー情報を返す
+  #     tags: ['users']
+  #     responses:
+  #       '200':
+  #         description: Successful Response
+  #         content:
+  #           application/json:
+  #             schema:
+  #               '$ref': '#/components/schemas/UserResponse'
+  /article:
+    post:
+      summary: 記事を投稿する
+      tags: ['articles']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postArticleRequest'
+        required: true
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/article'
+
+  /article/list:
+    get:
+      summary: 記事一覧を取得する
+      tags: ['articles']
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/getArticleListResponse'
+
+  /article/{article_id}:
+    get:
+      summary: 指定したidの記事詳細を取得
+      tags: ['articles']
+      parameters:
+        - in: path
+          name: article_id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/article'
+
+  /comment:
+    post:
+      summary: 指定した記事にコメントを登録する
+      tags: ['comments']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postCommentRequest'
+        required: true
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+  /nice:
+    post:
+      summary: 指定した記事にいいねを登録する
+      tags: ['nices']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postNiceRequest'
+      responses:
+        '200':
+          description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nice'
+
+components:
+  schemas:
+    article:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        contents:
+          type: string
+        userID:
+          type: integer
+        userName:
+          type: string
+        niceNum:
+          type: integer
+        createdAt:
+          type: string
+        commentList:
+          type: array
+          items:
+            $ref: '#/components/schemas/comment'
+
+    comment:
+      type: object
+      properties:
+        comment_id:
+          type: number
+        article_id:
+          type: number
+        user_id:
+          type: number
+        message:
+          type: string
+
+    nice:
+      type: object
+      properties:
+        nice_id:
+          type: number
+        article_id:
+          type: number
+        user_id:
+          type: number
+
+    postArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        contents:
+          type: string
+        user_id:
+          type: string
+      required:
+        - title
+        - contents
+        - user_id
+
+    getArticleListResponse:
+      type: array
+      items:
+        type: object
+        $ref: '#/components/schemas/article'
+
+    postCommentRequest:
+      type: object
+      properties:
+        article_id:
+          type: number
+        user_id:
+          type: number
+        message:
+          type: string
+
+    postNiceRequest:
+      type: object
+      properties:
+        article_id:
+          type: number
+        user_id:
+          type: number

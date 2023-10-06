@@ -10,7 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func TestSelectarticle(t *testing.T) {
+func TestSelectArticle(t *testing.T) {
 	tests := []struct {
 		testTitle string
 		expected  models.Article
@@ -41,11 +41,11 @@ func TestSelectarticle(t *testing.T) {
 			if got.Contents != test.expected.Contents {
 				t.Errorf("Content: get %s but want %s\n", got.Contents, test.expected.Contents)
 			}
+			if got.UserID != test.expected.UserID {
+				t.Errorf("UserID: get %d but want %d\n", got.UserID, test.expected.UserID)
+			}
 			if got.UserName != test.expected.UserName {
 				t.Errorf("UserName: get %s but want %s\n", got.UserName, test.expected.UserName)
-			}
-			if got.NiceNum != test.expected.NiceNum {
-				t.Errorf("NiceNum: get %d but want %d\n", got.NiceNum, test.expected.NiceNum)
 			}
 		})
 	}
@@ -67,7 +67,7 @@ func TestInsertArticle(t *testing.T) {
 	article := models.Article{
 		Title:    "insertTest",
 		Contents: "testest",
-		UserName: "naoki",
+		UserID:   1,
 	}
 
 	expectedArticleTitle := "insertTest"
@@ -76,37 +76,14 @@ func TestInsertArticle(t *testing.T) {
 		t.Error(err)
 	}
 	if newArticle.Title != expectedArticleTitle {
-		t.Errorf("new article id is expected %s but got %s\n", expectedArticleTitle, newArticle.Title)
+		t.Errorf("new article title is expected %s but got %s\n", expectedArticleTitle, newArticle.Title)
 	}
 
 	t.Cleanup(func() {
 		const sqlStr = `
 			delete from articles
-			where title = ? and contents = ? and username = ?
+			where title = ? and contents = ? and user_id = ?
 		`
-		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserName)
+		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserID)
 	})
-}
-
-func TestUpdateNiceNum(t *testing.T) {
-	articleID := 1
-	before, err := repositories.SelectArticleDetail(testDB, articleID)
-	if err != nil {
-		t.Error(err)
-	}
-
-	err = repositories.UpdateNiceNum(testDB, articleID)
-	if err != nil {
-		t.Error(err)
-	}
-
-	after, err := repositories.SelectArticleDetail(testDB, articleID)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if after.NiceNum-before.NiceNum != 1 {
-		t.Error("fail to update nice num")
-	}
-
 }

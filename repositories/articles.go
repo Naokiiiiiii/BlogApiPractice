@@ -12,14 +12,14 @@ const (
 
 func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 	const sqlStr = `
-	insert into articles (title, contents, username, nice, created_at) values
-	(?, ?, ?, 0, now());
+	insert into articles (title, contents, user_id, created_at) values
+	(?, ?, ?, now());
 	`
 
 	var newArticle models.Article
-	newArticle.Title, newArticle.Contents, newArticle.UserName = article.Title, article.Contents, article.UserName
+	newArticle.Title, newArticle.Contents, newArticle.UserID = article.Title, article.Contents, article.UserID
 
-	result, err := db.Exec(sqlStr, article.Title, article.Contents, article.UserName)
+	result, err := db.Exec(sqlStr, article.Title, article.Contents, article.UserID)
 	if err != nil {
 		return models.Article{}, err
 	}
@@ -33,8 +33,9 @@ func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 
 func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 	const sqlStr = `
-		select article_id, title, contents, username, nice
+		select articles.article_id, articles.title, articles.contents, articles.user_id, users.username
 		from articles
+		inner join users on articles.user_id = users.user_id
 		limit ? offset ?;
 	`
 
@@ -47,7 +48,7 @@ func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 	articleArray := make([]models.Article, 0)
 	for rows.Next() {
 		var article models.Article
-		rows.Scan(&article.ID, &article.Title, &article.Contents, &article.UserName, &article.NiceNum)
+		rows.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID, &article.UserName)
 
 		articleArray = append(articleArray, article)
 	}
@@ -57,10 +58,12 @@ func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 
 func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 	const sqlStr = `
-		select *
+		select articles.*, users.username
 		from articles
+		inner join users on articles.user_id = users.user_id
 		where article_id = ?;
 	`
+
 	row := db.QueryRow(sqlStr, articleID)
 	if err := row.Err(); err != nil {
 		return models.Article{}, err
@@ -68,7 +71,7 @@ func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 
 	var article models.Article
 	var createdTime sql.NullTime
-	err := row.Scan(&article.ID, &article.Title, &article.Contents, &article.UserName, &article.NiceNum, &createdTime)
+	err := row.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID, &createdTime, &article.UserName)
 	if err != nil {
 		return models.Article{}, err
 	}
@@ -78,41 +81,4 @@ func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 	}
 
 	return article, nil
-}
-
-func UpdateNiceNum(db *sql.DB, articleID int) error {
-	tx, err := db.Begin()
-	if err != nil {
-		return err
-	}
-
-	const sqlGetNice = `
-		select nice
-		from articles
-		where article_id = ?;
-	`
-	row := tx.QueryRow(sqlGetNice, articleID)
-	if err := row.Err(); err != nil {
-		tx.Rollback()
-		return err
-	}
-
-	var nicenum int
-	err = row.Scan(&nicenum)
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
-
-	const sqlUpdateNice = `update articles set nice = ? where article_id = ?`
-	_, err = tx.Exec(sqlUpdateNice, nicenum+1, articleID)
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
-
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-	return nil
 }

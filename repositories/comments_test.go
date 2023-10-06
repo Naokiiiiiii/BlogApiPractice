@@ -3,6 +3,7 @@ package repositories_test
 import (
 	"testing"
 
+	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
 )
 
@@ -20,26 +21,27 @@ func TestSelectCommentList(t *testing.T) {
 	}
 }
 
-// func TestInsertComment(t *testing.T) {
-// 	comment := models.Comment{
-// 		ArticleID: 3,
-// 		Message:   "CommentInsertTest",
-// 	}
+func TestInsertComment(t *testing.T) {
+	comment := models.Comment{
+		ArticleID: 1,
+		UserID:    1,
+		Message:   "CommentInsertTest",
+	}
 
-// 	expectedCommentID := 5
-// 	newComment, err := repositories.InsertComment(testDB, comment)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
-// 	if newComment.CommentID != expectedCommentID {
-// 		t.Errorf("new comment id is expected %d but got %d\n", expectedCommentID, newComment.CommentID)
-// 	}
+	expectedCommentID := 3
+	newComment, err := repositories.InsertComment(testDB, comment)
+	if err != nil {
+		t.Error(err)
+	}
+	if newComment.CommentID != expectedCommentID {
+		t.Errorf("new comment id is expected %d but got %d\n", expectedCommentID, newComment.CommentID)
+	}
 
-// 	t.Cleanup(func() {
-// 		const sqlStr = `
-// 			delete from comments
-// 			where message = ?
-// 		`
-// 		testDB.Exec(sqlStr, comment.Message)
-// 	})
-// }
+	t.Cleanup(func() {
+		const sqlStr = `
+			delete from comments
+			where message = ?
+		`
+		testDB.Exec(sqlStr, comment.Message)
+	})
+}

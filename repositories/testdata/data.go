@@ -7,14 +7,22 @@ var ArticleTestData = []models.Article{
 		ID:       1,
 		Title:    "firstPost",
 		Contents: "This is my first blog",
+		UserID:   1,
 		UserName: "naoki",
-		NiceNum:  2,
 	},
 	models.Article{
 		ID:       2,
-		Title:    "2nd",
-		Contents: "Second blog post",
+		Title:    "secondPost",
+		Contents: "This is my second blog",
+		UserID:   1,
 		UserName: "naoki",
-		NiceNum:  4,
+	},
+}
+
+var NiceTestData = []models.Nice{
+	models.Nice{
+		NiceID:    1,
+		UserID:    1,
+		ArticleID: 1,
 	},
 }

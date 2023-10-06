@@ -15,6 +15,7 @@ func NewRouter(db *sql.DB) *mux.Router {
 	ser := services.NewMyAppService(db)
 	aCon := controllers.NewArticleController(ser)
 	cCon := controllers.NewCommentController(ser)
+	nCon := controllers.NewNiceController(ser)
 	r := mux.NewRouter()
 
 	// 認証が必要ないAPI
@@ -28,7 +29,7 @@ func NewRouter(db *sql.DB) *mux.Router {
 	authRequired.HandleFunc("/article", aCon.PostArticleHandler).Methods(http.MethodPost)
 	authRequired.HandleFunc("/article/list", aCon.ArticleListHandler).Methods(http.MethodGet)
 	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler).Methods(http.MethodGet)
-	authRequired.HandleFunc("/article/nice", aCon.PostNiceHandler).Methods(http.MethodPost)
+	authRequired.HandleFunc("/article/nice", nCon.PostNiceHandler).Methods(http.MethodPost)
 	authRequired.HandleFunc("/comment", cCon.PostCommentHandler).Methods(http.MethodPost)
 
 	return r
