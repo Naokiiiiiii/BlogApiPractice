@@ -47,6 +47,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/article'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 
   /article/list:
     get:
@@ -204,3 +210,10 @@ components:
           type: number
         user_id:
           type: number
+    error:
+      type: object
+      properties:
+        ErrCode:
+          type: string
+        Message:
+          type: string
