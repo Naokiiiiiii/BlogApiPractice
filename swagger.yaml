@@ -72,6 +72,12 @@ paths:
               schema:
                 type: array
                 $ref: '#/components/schemas/getArticleListResponse'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 
   /article/{article_id}:
     get:
@@ -91,6 +97,12 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/article'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 
   /comment:
     post:
@@ -109,6 +121,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/comment'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 
   /nice:
     post:
@@ -126,6 +144,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/nice'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 
 components:
   schemas:
