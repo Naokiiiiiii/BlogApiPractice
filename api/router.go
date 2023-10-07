@@ -17,7 +17,6 @@ func NewRouter(db *sql.DB) *mux.Router {
 	nCon := controllers.NewNiceController(ser)
 	r := mux.NewRouter()
 
-	r.HandleFunc("/hello", aCon.HelloWorldHandler).Methods(http.MethodGet)
 	r.HandleFunc("/article", aCon.PostArticleHandler).Methods(http.MethodPost)
 	r.HandleFunc("/article/list", aCon.ArticleListHandler).Methods(http.MethodGet)
 	r.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler).Methods(http.MethodGet)
