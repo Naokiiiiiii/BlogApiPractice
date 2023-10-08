@@ -7,7 +7,23 @@ import (
 )
 
 func InsertUser(db *sql.DB, user models.User) (models.User, error) {
-	return models.User{}, nil
+
+	const sqlStr = `insert into users (google_id, username, email, created_at) values
+		(?, ?, ?, now());
+	`
+
+	var newUser models.User
+	newUser.GoogleID, newUser.UserName, newUser.Email = user.GoogleID, user.UserName, user.Email
+
+	result, err := db.Exec(sqlStr, user.GoogleID, user.UserName, user.Email)
+	if err != nil {
+		return models.User{}, err
+	}
+
+	id, _ := result.LastInsertId()
+	newUser.UserID = int(id)
+
+	return newUser, nil
 }
 
 func GetUser(db *sql.DB, userID int) (models.User, error) {
