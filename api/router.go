@@ -31,7 +31,6 @@ func NewRouter(db *sql.DB) *mux.Router {
 	authRequired := r.PathPrefix("/").Subrouter()
 	authRequired.Use(middlewares.AuthMiddleware)
 
-	authRequired.HandleFunc("/hello", aCon.HelloWorldHandler).Methods(http.MethodGet)
 	authRequired.HandleFunc("/article", aCon.PostArticleHandler).Methods(http.MethodPost)
 	authRequired.HandleFunc("/article/list", aCon.ArticleListHandler).Methods(http.MethodGet)
 	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler).Methods(http.MethodGet)
