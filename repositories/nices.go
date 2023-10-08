@@ -51,5 +51,5 @@ func InsertNice(db *sql.DB, nice models.Nice) (models.Nice, error) {
 	id, _ := result.LastInsertId()
 	newNice.NiceID = int(id)
 
-	return newNice, err
+	return newNice, nil
 }
