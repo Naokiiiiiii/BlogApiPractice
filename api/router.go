@@ -84,5 +84,5 @@ func handleGoogleCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("userinfo", userInfo)
+	fmt.Println("userinfo", userInfo["id"], userInfo["email"], userInfo["name"])
 }
