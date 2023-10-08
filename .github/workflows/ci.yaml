@@ -20,7 +20,7 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
-          version: c1.44.2
+          version: v1.44.2
           args: --disable-all --enable=govet,errcheck,staticcheck,gosimple
 
       - name: test
