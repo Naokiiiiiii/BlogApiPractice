@@ -1,0 +1,50 @@
+name: ci
+on:
+  push:
+    branches:
+      - '**'
+  pull_request: {}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.ROOTPASS }}
+          MYSQL_DATABASE: ${{ secrets.DATABASE }}
+          MYSQL_USER: ${{ secrets.USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.USERPASS }}
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      # - name: Set Environment Variables
+      #   run: |
+      #     echo "NAME=value" >> $GITHUB_ENV
+      #     echo "::set-output name=NAME::value"
+      #   id: setenv
+
+      - name: setup go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.x
+
+      - name: checkout
+        uses: actions/checkout@v3
+
+      # - name: golangci-lint
+      #   uses: golangci/golangci-lint-action@v2
+      #   with:
+      #     version: v1.44.2
+      #     args: --disable-all --enable=govet,errcheck,staticcheck,gosimple
+
+      - name: test
+        run: go test -v ./...
+
+      # - name: Save Environment Variables to File
+      #   run: |
+      #     echo "NAME=${{ steps.setenv.outputs.NAME }}" >> $GITHUB_ENV_FILE
+      #   id: saveenv
