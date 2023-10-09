@@ -15,16 +15,22 @@ func NewRouter(db *sql.DB) *mux.Router {
 	aCon := controllers.NewArticleController(ser)
 	cCon := controllers.NewCommentController(ser)
 	nCon := controllers.NewNiceController(ser)
+	uCon := controllers.NewUserController(ser)
 	r := mux.NewRouter()
 
-	r.HandleFunc("/article", aCon.PostArticleHandler).Methods(http.MethodPost)
-	r.HandleFunc("/article/list", aCon.ArticleListHandler).Methods(http.MethodGet)
-	r.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler).Methods(http.MethodGet)
-	r.HandleFunc("/nice", nCon.PostNiceHandler).Methods(http.MethodPost)
-	r.HandleFunc("/comment", cCon.PostCommentHandler).Methods(http.MethodPost)
+	// 認証が必要ないAPI
+	r.HandleFunc("/login", uCon.GoogleLoginHandler)
+	r.HandleFunc("/callback", uCon.GoogleCallbackHandler)
 
-	r.Use(middlewares.LoggingMiddleware)
-	// r.Use(middlewares.AuthMiddleware)
+	// 認証が必要なAPI
+	authRequired := r.PathPrefix("/").Subrouter()
+	authRequired.Use(middlewares.AuthMiddleware)
+
+	authRequired.HandleFunc("/article", aCon.PostArticleHandler).Methods(http.MethodPost)
+	authRequired.HandleFunc("/article/list", aCon.ArticleListHandler).Methods(http.MethodGet)
+	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler).Methods(http.MethodGet)
+	authRequired.HandleFunc("/article/nice", nCon.PostNiceHandler).Methods(http.MethodPost)
+	authRequired.HandleFunc("/comment", cCon.PostCommentHandler).Methods(http.MethodPost)
 
 	return r
 }

@@ -12,12 +12,13 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main() {
-
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
 	}
+}
+
+func main() {
 
 	dbConn := fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", os.Getenv("USERNAME"), os.Getenv("USERPASS"), os.Getenv("DATABASE"))
 

@@ -15,3 +15,7 @@ type CommentServicer interface {
 type NiceServicer interface {
 	PostNiceService(nice models.Nice) (models.Nice, error)
 }
+
+type UserServicer interface {
+	PostUserService(user models.User) (models.User, error)
+}
