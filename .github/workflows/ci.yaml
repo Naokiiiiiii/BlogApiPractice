@@ -9,10 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Save state
-        run: echo "{name}={value}" >> $GITHUB_STATE
+      - name: Set state
+        run: echo "name=value" >> $GITHUB_ENV
+
       - name: Set output
-        run: echo "{name}={value}" >> $GITHUB_OUTPUT
+        run: echo "::set-output name=name::value"
 
       - name: setup go
         uses: actions/setup-go@v2
