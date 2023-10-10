@@ -75,6 +75,7 @@ func (s *MyAppService) RegenerateAccessTokenService(refreshToken string) (*oauth
 	newToken, err := config.TokenSource(context.Background(), token).Token()
 	if err != nil {
 		fmt.Println("Failed to refresh token:", err)
+		err = apperrors.RefreshTokenFailed.Wrap(err, "Failed to refresh token")
 		return nil, err
 	}
 

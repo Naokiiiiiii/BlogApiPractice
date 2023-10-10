@@ -22,4 +22,5 @@ const (
 	ExchangeTokenFailed         ErrCode = "A006"
 	GetRefreshTokenFailed       ErrCode = "A007"
 	DecodeUserInfoFailed        ErrCode = "A008"
+	RefreshTokenFailed          ErrCode = "A009"
 )
