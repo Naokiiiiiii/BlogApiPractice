@@ -22,4 +22,5 @@ type NiceServicer interface {
 type UserServicer interface {
 	PostUserService(user models.User) (models.User, error)
 	GoogleCallbackService(code string) (*oauth2.Token, map[string]interface{}, error)
+	RegenerateAccessTokenService(refreshToken string) (*oauth2.Token, error)
 }
