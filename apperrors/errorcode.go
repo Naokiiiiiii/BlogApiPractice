@@ -18,4 +18,9 @@ const (
 	CannotMakeValidatior        ErrCode = "A001"
 	Unauthorizated              ErrCode = "A003"
 	NotMatchUser                ErrCode = "A004"
+	GetUserInfoFailed           ErrCode = "A005"
+	ExchangeTokenFailed         ErrCode = "A006"
+	GetRefreshTokenFailed       ErrCode = "A007"
+	DecodeUserInfoFailed        ErrCode = "A008"
+	RefreshTokenFailed          ErrCode = "A009"
 )
