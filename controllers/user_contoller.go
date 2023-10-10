@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -48,13 +47,6 @@ func (c *UserController) GoogleCallbackHandler(w http.ResponseWriter, req *http.
 }
 
 func (c *UserController) RegenerateAccessTokenHandler(w http.ResponseWriter, req *http.Request) {
-	config := oauth2.Config{
-		ClientID:     os.Getenv("GOOGLE_CLIANT_ID"),
-		ClientSecret: os.Getenv("GOOGLE_CLIANT_SECRET"),
-		RedirectURL:  "http://localhost:8080/callback",
-		Endpoint:     google.Endpoint,
-		Scopes:       []string{"profile", "email"},
-	}
 
 	var refreshToken string
 	if err := json.NewDecoder(req.Body).Decode(&refreshToken); err != nil {
@@ -62,16 +54,11 @@ func (c *UserController) RegenerateAccessTokenHandler(w http.ResponseWriter, req
 		apperrors.ErrorHandler(w, req, err)
 	}
 
-	token := &oauth2.Token{
-		RefreshToken: refreshToken,
-	}
-
-	newToken, err := config.TokenSource(context.Background(), token).Token()
+	newToken, err := c.service.RegenerateAccessTokenService(refreshToken)
 	if err != nil {
-		fmt.Println("Failed to refresh token:", err)
+		apperrors.ErrorHandler(w, req, err)
 		return
 	}
 
-	fmt.Println("New Access Token:", newToken)
-
+	json.NewEncoder(w).Encode(newToken)
 }
