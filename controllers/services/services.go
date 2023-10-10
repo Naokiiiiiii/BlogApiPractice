@@ -1,6 +1,9 @@
 package services
 
-import "github.com/Naokiiiiiii/BlogApiPractice/models"
+import (
+	"github.com/Naokiiiiiii/BlogApiPractice/models"
+	"golang.org/x/oauth2"
+)
 
 type ArticleServicer interface {
 	PostArticleService(article models.Article) (models.Article, error)
@@ -18,4 +21,5 @@ type NiceServicer interface {
 
 type UserServicer interface {
 	PostUserService(user models.User) (models.User, error)
+	GoogleCallbackService(code string) (*oauth2.Token, map[string]interface{}, error)
 }
