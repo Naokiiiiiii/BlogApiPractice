@@ -12,8 +12,8 @@ const (
 
 func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 	const sqlStr = `
-	insert into articles (title, contents, user_id, created_at) values
-	(?, ?, ?, now());
+	insert into articles (title, contents, user_id, created_at, updated_at) values
+	(?, ?, ?, now(), now());
 	`
 
 	var newArticle models.Article
@@ -71,13 +71,18 @@ func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 
 	var article models.Article
 	var createdTime sql.NullTime
-	err := row.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID, &createdTime, &article.UserName)
+	var updatedTime sql.NullTime
+	err := row.Scan(&article.ID, &article.Title, &article.Contents, &article.UserID, &createdTime, &updatedTime, &article.UserName)
 	if err != nil {
 		return models.Article{}, err
 	}
 
 	if createdTime.Valid {
 		article.CreatedAt = createdTime.Time
+	}
+
+	if updatedTime.Valid {
+		article.UpdatedAt = updatedTime.Time
 	}
 
 	return article, nil

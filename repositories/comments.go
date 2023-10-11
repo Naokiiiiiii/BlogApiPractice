@@ -8,8 +8,8 @@ import (
 
 func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 	const sqlStr = `
-		insert into comments (article_id, user_id, message, created_at) values
-		(?, ?, ?, now());
+		insert into comments (article_id, user_id, message, created_at, updated_at) values
+		(?, ?, ?, now(), now());
 	`
 	var newComment models.Comment
 	newComment.ArticleID, newComment.UserID, newComment.Message = comment.ArticleID, comment.UserID, comment.Message
@@ -43,10 +43,15 @@ func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 	for rows.Next() {
 		var comment models.Comment
 		var createdTime sql.NullTime
-		rows.Scan(&comment.CommentID, &comment.ArticleID, &comment.UserID, &comment.UserName, &comment.Message, &createdTime)
+		var updatedTime sql.NullTime
+		rows.Scan(&comment.CommentID, &comment.ArticleID, &comment.UserID, &comment.UserName, &comment.Message, &createdTime, &updatedTime)
 
 		if createdTime.Valid {
 			comment.CreatedAt = createdTime.Time
+		}
+
+		if updatedTime.Valid {
+			comment.UpdatedAt = updatedTime.Time
 		}
 
 		commentArray = append(commentArray, comment)
