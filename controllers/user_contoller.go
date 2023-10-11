@@ -8,6 +8,7 @@ import (
 
 	"github.com/Naokiiiiiii/BlogApiPractice/apperrors"
 	"github.com/Naokiiiiiii/BlogApiPractice/controllers/services"
+	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -40,7 +41,11 @@ func (c *UserController) GoogleCallbackHandler(w http.ResponseWriter, req *http.
 		return
 	}
 
-	fmt.Println("userinfo", userInfo["id"], userInfo["email"], userInfo["name"])
+	// userinfoのエラー回避のため出力
+	fmt.Println("userinfo", userInfo)
+
+	fmt.Println("token", token.RefreshToken)
+
 	// DBにユーザー情報格納
 
 	json.NewEncoder(w).Encode(token)
@@ -48,7 +53,7 @@ func (c *UserController) GoogleCallbackHandler(w http.ResponseWriter, req *http.
 
 func (c *UserController) RegenerateAccessTokenHandler(w http.ResponseWriter, req *http.Request) {
 
-	var refreshToken string
+	var refreshToken models.RefreshToken
 	if err := json.NewDecoder(req.Body).Decode(&refreshToken); err != nil {
 		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
 		apperrors.ErrorHandler(w, req, err)

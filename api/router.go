@@ -21,7 +21,7 @@ func NewRouter(db *sql.DB) *mux.Router {
 	// 認証が必要ないAPI
 	r.HandleFunc("/login", uCon.GoogleLoginHandler)
 	r.HandleFunc("/callback", uCon.GoogleCallbackHandler)
-	r.HandleFunc("/regenerateToken", uCon.RegenerateAccessTokenHandler)
+	r.HandleFunc("/regenerateToken", uCon.RegenerateAccessTokenHandler).Methods(http.MethodPost)
 
 	// 認証が必要なAPI
 	authRequired := r.PathPrefix("/").Subrouter()
