@@ -36,3 +36,7 @@ type Nice struct {
 	ArticleID int       `json:"article_id"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+type RefreshToken struct {
+	RefreshToken string `json:"refresh_token"`
+}
