@@ -12,7 +12,7 @@ const (
 
 func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {
 	const sqlStr = `
-	insert into articles (title, contents, user_id, created_at) values
+	insert into articles (title, contents, user_id, created_at, updated_at) values
 	(?, ?, ?, now(), now());
 	`
 

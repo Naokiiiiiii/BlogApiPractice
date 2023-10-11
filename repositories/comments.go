@@ -8,7 +8,7 @@ import (
 
 func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 	const sqlStr = `
-		insert into comments (article_id, user_id, message, created_at) values
+		insert into comments (article_id, user_id, message, created_at, updated_at) values
 		(?, ?, ?, now(), now());
 	`
 	var newComment models.Comment
