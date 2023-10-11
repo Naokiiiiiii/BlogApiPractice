@@ -9,6 +9,7 @@ type Comment struct {
 	UserName  string    `json:"user_name"`
 	Message   string    `json:"message"`
 	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type Article struct {
@@ -20,6 +21,7 @@ type Article struct {
 	NiceNum     int       `json:"nice"`
 	CommentList []Comment `json:"comments"`
 	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 type User struct {
@@ -28,6 +30,7 @@ type User struct {
 	UserName  string    `json:"user_name"`
 	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type Nice struct {
