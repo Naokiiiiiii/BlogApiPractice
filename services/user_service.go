@@ -54,22 +54,20 @@ func (s *MyAppService) GoogleCallbackService(code string) (*oauth2.Token, map[st
 		return nil, nil, err
 	}
 
-	fmt.Println("userinfo", userInfo["id"], userInfo["email"], userInfo["name"])
-
 	return token, userInfo, nil
 }
 
-func (s *MyAppService) RegenerateAccessTokenService(refreshToken string) (*oauth2.Token, error) {
+func (s *MyAppService) RegenerateAccessTokenService(refreshToken models.RefreshToken) (*oauth2.Token, error) {
 	config := oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIANT_ID"),
 		ClientSecret: os.Getenv("GOOGLE_CLIANT_SECRET"),
 		RedirectURL:  "http://localhost:8080/callback",
 		Endpoint:     google.Endpoint,
-		Scopes:       []string{"profile", "email"},
+		Scopes:       []string{"profile", "email", "offline"},
 	}
 
 	token := &oauth2.Token{
-		RefreshToken: refreshToken,
+		RefreshToken: refreshToken.RefreshToken,
 	}
 
 	newToken, err := config.TokenSource(context.Background(), token).Token()
