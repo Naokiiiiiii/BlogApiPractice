@@ -2,6 +2,7 @@ package repositories_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
@@ -86,4 +87,23 @@ func TestInsertArticle(t *testing.T) {
 		`
 		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserID)
 	})
+}
+
+func TestUpdateArticle(t *testing.T) {
+	article := models.Article{
+		ID:        1,
+		Title:     "Updated Title",
+		Contents:  "Updated Contents",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	resultArticle, err := repositories.UpdateArticle(testDB, article)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if article.Title != resultArticle.Title {
+		t.Errorf("new article title is expected %s but got %s\n", article.Title, resultArticle.Title)
+	}
 }
