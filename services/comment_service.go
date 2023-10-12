@@ -16,3 +16,13 @@ func (s *MyAppService) PostCommentService(comment models.Comment) (models.Commen
 
 	return newComment, nil
 }
+
+func (s *MyAppService) UpdateCommentService(comment models.Comment) (models.Comment, error) {
+	newComment, err := repositories.UpdateComment(s.db, comment)
+	if err != nil {
+		err = apperrors.UpdateDataFailed.Wrap(err, "fail to update data")
+		return models.Comment{}, err
+	}
+
+	return newComment, nil
+}
