@@ -23,6 +23,9 @@ func NewRouter(db *sql.DB) *mux.Router {
 	r.HandleFunc("/callback", uCon.GoogleCallbackHandler)
 	r.HandleFunc("/regenerateToken", uCon.RegenerateAccessTokenHandler).Methods(http.MethodPost)
 
+	r.HandleFunc("/article", aCon.UpdateArticleHandler).Methods(http.MethodPut)
+	r.HandleFunc("/comment", cCon.UpdateCommentHandler).Methods(http.MethodPut)
+
 	// 認証が必要なAPI
 	authRequired := r.PathPrefix("/").Subrouter()
 	authRequired.Use(middlewares.AuthMiddleware)
@@ -32,7 +35,6 @@ func NewRouter(db *sql.DB) *mux.Router {
 	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler).Methods(http.MethodGet)
 	authRequired.HandleFunc("/article/nice", nCon.PostNiceHandler).Methods(http.MethodPost)
 	authRequired.HandleFunc("/comment", cCon.PostCommentHandler).Methods(http.MethodPost)
-	authRequired.HandleFunc("/article", cCon.UpdateCommentHandler).Methods(http.MethodPut)
 
 	return r
 }
