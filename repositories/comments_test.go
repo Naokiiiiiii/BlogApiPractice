@@ -45,3 +45,19 @@ func TestInsertComment(t *testing.T) {
 		testDB.Exec(sqlStr, comment.Message)
 	})
 }
+
+func TestUpdateComment(t *testing.T) {
+	updateCommnet := models.Comment{
+		CommentID: 1,
+		Message:   "updateCommnet",
+	}
+
+	newComment, err := repositories.UpdateComment(testDB, updateCommnet)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if newComment.Message != updateCommnet.Message {
+		t.Errorf("new comment is expected %s but got %s\n", updateCommnet.Message, newComment.Message)
+	}
+}
