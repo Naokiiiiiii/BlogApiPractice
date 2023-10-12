@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 )
@@ -58,4 +59,18 @@ func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 	}
 
 	return commentArray, nil
+}
+
+func UpdateComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
+	const sqlStr = `
+		UPDATE comments SET message = ?, updated_at = now() WHERE comment_id = ?;
+	`
+
+	_, err := db.Exec(sqlStr, comment.Message, comment.CommentID)
+	if err != nil {
+		fmt.Println(err)
+		return models.Comment{}, err
+	}
+
+	return comment, nil
 }

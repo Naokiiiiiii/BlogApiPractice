@@ -13,6 +13,7 @@ type ArticleServicer interface {
 
 type CommentServicer interface {
 	PostCommentService(comment models.Comment) (models.Comment, error)
+	UpdateCommentService(comment models.Comment) (models.Comment, error)
 }
 
 type NiceServicer interface {
