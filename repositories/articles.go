@@ -87,3 +87,16 @@ func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 
 	return article, nil
 }
+
+func UpdateArticle(db *sql.DB, article models.Article) (models.Article, error) {
+	const sqlStr = `
+		UPDATE articles SET title = ?, contents = ?, updated_at = now() WHERE article_id = ?;
+	`
+
+	_, err := db.Exec(sqlStr, article.Title, article.Contents, article.ID)
+	if err != nil {
+		return models.Article{}, err
+	}
+
+	return article, nil
+}

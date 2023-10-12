@@ -116,3 +116,13 @@ func (s *MyAppService) GetArticleListService(page int) ([]models.Article, error)
 
 	return articleList, nil
 }
+
+func (s *MyAppService) UpdateArticleService(article models.Article) (models.Article, error) {
+	newArticle, err := repositories.UpdateArticle(s.db, article)
+	if err != nil {
+		err = apperrors.UpdateDataFailed.Wrap(err, "fail to update data")
+		return models.Article{}, err
+	}
+
+	return newArticle, nil
+}
