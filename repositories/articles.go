@@ -102,13 +102,34 @@ func UpdateArticle(db *sql.DB, article models.Article) (models.Article, error) {
 }
 
 func DeleteArticle(db *sql.DB, articleID int) error {
-	const sqlStr = `DELETE FROM articles WHERE article_id = ?`
 
-	_, err := db.Exec(sqlStr, articleID)
-
+	tx, err := db.Begin()
 	if err != nil {
 		return err
 	}
+
+	const sqlDeleteCommentStr = `DELETE FROM comments WHERE article_id = ?`
+	_, err = tx.Exec(sqlDeleteCommentStr, articleID)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	const sqlDeleteNiceStr = `DELETE FROM nices WHERE article_id = ?`
+	_, err = tx.Exec(sqlDeleteNiceStr, articleID)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	const sqlDeleteArticleStr = `DELETE FROM articles WHERE article_id = ?`
+	_, err = tx.Exec(sqlDeleteArticleStr, articleID)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	tx.Commit()
 
 	return nil
 }
