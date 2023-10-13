@@ -16,6 +16,7 @@ type ArticleServicer interface {
 type CommentServicer interface {
 	PostCommentService(comment models.Comment) (models.Comment, error)
 	UpdateCommentService(comment models.Comment) (models.Comment, error)
+	DeleteCommentService(commentID int) error
 }
 
 type NiceServicer interface {
