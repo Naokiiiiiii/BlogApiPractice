@@ -100,3 +100,15 @@ func UpdateArticle(db *sql.DB, article models.Article) (models.Article, error) {
 
 	return article, nil
 }
+
+func DeleteArticle(db *sql.DB, articleID int) error {
+	const sqlStr = `DELETE FROM articles WHERE article_id = ?`
+
+	_, err := db.Exec(sqlStr, articleID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -126,3 +126,13 @@ func (s *MyAppService) UpdateArticleService(article models.Article) (models.Arti
 
 	return newArticle, nil
 }
+
+func (s *MyAppService) DeleteArticleService(id int) error {
+	err := repositories.DeleteArticle(s.db, id)
+	if err != nil {
+		err = apperrors.DeleteDataFailed.Wrap(err, "fail to delete data")
+		return err
+	}
+
+	return nil
+}

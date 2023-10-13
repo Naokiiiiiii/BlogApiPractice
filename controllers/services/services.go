@@ -10,6 +10,7 @@ type ArticleServicer interface {
 	GetArticleListService(page int) ([]models.Article, error)
 	GetArticleService(articleID int) (models.Article, error)
 	UpdateArticleService(article models.Article) (models.Article, error)
+	DeleteArticleService(articleID int) error
 }
 
 type CommentServicer interface {
