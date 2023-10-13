@@ -25,6 +25,8 @@ func NewRouter(db *sql.DB) *mux.Router {
 
 	r.HandleFunc("/article", aCon.UpdateArticleHandler).Methods(http.MethodPut)
 	r.HandleFunc("/comment", cCon.UpdateCommentHandler).Methods(http.MethodPut)
+	r.HandleFunc("/article/{id:[0-9]+}", aCon.DeleteArticleHandler).Methods(http.MethodDelete)
+	r.HandleFunc("/comment/{id:[0-9]+}", cCon.DeleteCommentHandler).Methods(http.MethodDelete)
 
 	// 認証が必要なAPI
 	authRequired := r.PathPrefix("/").Subrouter()

@@ -24,10 +24,18 @@ func (s *serviceMock) UpdateArticleService(article models.Article) (models.Artic
 	return articleTestData[0], nil
 }
 
+func (s *serviceMock) DeleteArticleService(articleID int) error {
+	return nil
+}
+
 func (s *serviceMock) PostNiceService(article models.Article) (models.Article, error) {
 	return articleTestData[0], nil
 }
 
 func (s *serviceMock) PostCommentService(comment models.Comment) (models.Comment, error) {
 	return commentTestData[0], nil
+}
+
+func (s *serviceMock) DeleteCommentService(articleID int) error {
+	return nil
 }

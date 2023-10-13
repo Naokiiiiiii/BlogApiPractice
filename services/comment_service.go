@@ -26,3 +26,13 @@ func (s *MyAppService) UpdateCommentService(comment models.Comment) (models.Comm
 
 	return newComment, nil
 }
+
+func (s *MyAppService) DeleteCommentService(commentID int) error {
+	err := repositories.DeleteComment(s.db, commentID)
+	if err != nil {
+		err = apperrors.DeleteDataFailed.Wrap(err, "fail to delete data")
+		return err
+	}
+
+	return nil
+}

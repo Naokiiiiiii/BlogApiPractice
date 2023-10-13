@@ -74,3 +74,15 @@ func UpdateComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 
 	return comment, nil
 }
+
+func DeleteComment(db *sql.DB, commnetID int) error {
+	const sqlStr = `DELETE FROM comments WHERE comment_id = ?`
+
+	_, err := db.Exec(sqlStr, commnetID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

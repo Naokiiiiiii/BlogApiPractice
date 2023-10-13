@@ -99,3 +99,21 @@ func (c *ArticleController) UpdateArticleHandler(w http.ResponseWriter, req *htt
 
 	json.NewEncoder(w).Encode(article)
 }
+
+func (c *ArticleController) DeleteArticleHandler(w http.ResponseWriter, req *http.Request) {
+	articleID, err := strconv.Atoi(mux.Vars(req)["id"])
+	if err != nil {
+		err = apperrors.BadParam.Wrap(err, "queryparam must be number")
+		apperrors.ErrorHandler(w, req, err)
+		return
+	}
+
+	err = c.service.DeleteArticleService(articleID)
+
+	if err != nil {
+		apperrors.ErrorHandler(w, req, err)
+		return
+	}
+
+	json.NewEncoder(w).Encode(err)
+}
