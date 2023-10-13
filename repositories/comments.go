@@ -86,15 +86,3 @@ func DeleteCommentByCommentID(db *sql.DB, commnetID int) error {
 
 	return nil
 }
-
-func DeleteCommentByArticleID(db *sql.DB, commnetID int) error {
-	const sqlStr = `DELETE FROM comments WHERE article_id = ?`
-
-	_, err := db.Exec(sqlStr, commnetID)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
