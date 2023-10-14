@@ -36,6 +36,10 @@ func (s *serviceMock) PostCommentService(comment models.Comment) (models.Comment
 	return commentTestData[0], nil
 }
 
-func (s *serviceMock) DeleteCommentService(articleID int) error {
+func (s *serviceMock) UpdateCommentService(comment models.Comment) (models.Comment, error) {
+	return commentTestData[0], nil
+}
+
+func (s *serviceMock) DeleteCommentService(commentID int) error {
 	return nil
 }
