@@ -17,6 +17,13 @@ var ArticleTestData = []models.Article{
 		UserID:   1,
 		UserName: "naoki",
 	},
+	models.Article{
+		ID:       3,
+		Title:    "thirdPost",
+		Contents: "This is my third blog",
+		UserID:   1,
+		UserName: "naoki",
+	},
 }
 
 var NiceTestData = []models.Nice{

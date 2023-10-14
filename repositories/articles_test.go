@@ -107,3 +107,13 @@ func TestUpdateArticle(t *testing.T) {
 		t.Errorf("new article title is expected %s but got %s\n", article.Title, resultArticle.Title)
 	}
 }
+
+func TestDeleteArticle(t *testing.T) {
+	deleteArticleID := 3
+
+	err := repositories.DeleteArticle(testDB, deleteArticleID)
+
+	if err != nil {
+		t.Errorf("DeleteArticle returned an error: %v", err)
+	}
+}
