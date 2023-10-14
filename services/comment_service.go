@@ -17,8 +17,8 @@ func (s *MyAppService) PostCommentService(comment models.Comment) (models.Commen
 	return newComment, nil
 }
 
-func (s *MyAppService) UpdateCommentService(comment models.Comment) (models.Comment, error) {
-	newComment, err := repositories.UpdateComment(s.db, comment)
+func (s *MyAppService) UpdateCommentService(commentID int, comment models.Comment) (models.Comment, error) {
+	newComment, err := repositories.UpdateComment(s.db, comment, commentID)
 	if err != nil {
 		err = apperrors.UpdateDataFailed.Wrap(err, "fail to update data")
 		return models.Comment{}, err

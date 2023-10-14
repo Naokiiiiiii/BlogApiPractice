@@ -24,7 +24,7 @@ func NewRouter(db *sql.DB) *mux.Router {
 	r.HandleFunc("/regenerateToken", uCon.RegenerateAccessTokenHandler).Methods(http.MethodPost)
 
 	r.HandleFunc("/article/{id:[0-9]+}", aCon.UpdateArticleHandler).Methods(http.MethodPut)
-	r.HandleFunc("/comment", cCon.UpdateCommentHandler).Methods(http.MethodPut)
+	r.HandleFunc("/comment/{id:[0-9]+}", cCon.UpdateCommentHandler).Methods(http.MethodPut)
 	r.HandleFunc("/article/{id:[0-9]+}", aCon.DeleteArticleHandler).Methods(http.MethodDelete)
 	r.HandleFunc("/comment/{id:[0-9]+}", cCon.DeleteCommentHandler).Methods(http.MethodDelete)
 
