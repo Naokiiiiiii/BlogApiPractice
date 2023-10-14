@@ -109,9 +109,9 @@ func TestUpdateArticle(t *testing.T) {
 }
 
 func TestDeleteArticle(t *testing.T) {
-	testArticleID := 1
+	deleteArticleID := 3
 
-	err := repositories.DeleteArticle(testDB, testArticleID)
+	err := repositories.DeleteArticle(testDB, deleteArticleID)
 
 	if err != nil {
 		t.Errorf("DeleteArticle returned an error: %v", err)

@@ -42,7 +42,9 @@ insert into users (username, email, created_at, updated_at) values ('naoki', 'ex
 
 insert into articles (title, contents, user_id, created_at, updated_at) values ('firstPost', 'This is my first blog', 1, now(), now()); 
 
-insert into articles (title, contents, user_id, created_at, updated_at) values ('secondPost', 'This is my second blog', 1, now(), now()); 
+insert into articles (title, contents, user_id, created_at, updated_at) values ('secondPost', 'This is my second blog', 1, now(), now());
+
+insert into articles (title, contents, user_id, created_at, updated_at) values ('third Post', 'This is my third blog', 1, now(), now());
 
 insert into comments (article_id, user_id, message, created_at, updated_at) values (1, 1, '1st comment yeah', now(), now());
 
