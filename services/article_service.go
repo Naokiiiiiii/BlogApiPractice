@@ -117,8 +117,8 @@ func (s *MyAppService) GetArticleListService(page int) ([]models.Article, error)
 	return articleList, nil
 }
 
-func (s *MyAppService) UpdateArticleService(article models.Article) (models.Article, error) {
-	newArticle, err := repositories.UpdateArticle(s.db, article)
+func (s *MyAppService) UpdateArticleService(articleID int, article models.Article) (models.Article, error) {
+	newArticle, err := repositories.UpdateArticle(s.db, article, articleID)
 	if err != nil {
 		err = apperrors.UpdateDataFailed.Wrap(err, "fail to update data")
 		return models.Article{}, err
@@ -127,8 +127,8 @@ func (s *MyAppService) UpdateArticleService(article models.Article) (models.Arti
 	return newArticle, nil
 }
 
-func (s *MyAppService) DeleteArticleService(id int) error {
-	err := repositories.DeleteArticle(s.db, id)
+func (s *MyAppService) DeleteArticleService(articleID int) error {
+	err := repositories.DeleteArticle(s.db, articleID)
 	if err != nil {
 		err = apperrors.DeleteDataFailed.Wrap(err, "fail to delete data")
 		return err

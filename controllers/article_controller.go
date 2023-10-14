@@ -84,13 +84,21 @@ func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *htt
 }
 
 func (c *ArticleController) UpdateArticleHandler(w http.ResponseWriter, req *http.Request) {
+
+	articleID, err := strconv.Atoi(mux.Vars(req)["id"])
+	if err != nil {
+		err = apperrors.BadParam.Wrap(err, "queryparam must be number")
+		apperrors.ErrorHandler(w, req, err)
+		return
+	}
+
 	var reqArticle models.Article
 	if err := json.NewDecoder(req.Body).Decode(&reqArticle); err != nil {
 		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad resuest body")
 		apperrors.ErrorHandler(w, req, err)
 	}
 
-	article, err := c.service.UpdateArticleService(reqArticle)
+	article, err := c.service.UpdateArticleService(articleID, reqArticle)
 
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)

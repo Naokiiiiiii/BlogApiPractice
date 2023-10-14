@@ -98,7 +98,7 @@ func TestUpdateArticle(t *testing.T) {
 		UpdatedAt: time.Now(),
 	}
 
-	resultArticle, err := repositories.UpdateArticle(testDB, article)
+	resultArticle, err := repositories.UpdateArticle(testDB, article, article.ID)
 	if err != nil {
 		t.Error(err)
 	}
