@@ -61,3 +61,15 @@ func TestUpdateComment(t *testing.T) {
 		t.Errorf("new comment is expected %s but got %s\n", updateCommnet.Message, newComment.Message)
 	}
 }
+
+func TestDelete(t *testing.T) {
+	deleteCommentID := 1
+
+	err := repositories.DeleteArticle(testDB, deleteCommentID)
+
+	if err != nil {
+		if err != nil {
+			t.Errorf("DeleteComment returned an error: %v", err)
+		}
+	}
+}
