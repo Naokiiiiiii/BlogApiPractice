@@ -63,3 +63,31 @@ func TestArticleDetailHandler(t *testing.T) {
 		})
 	}
 }
+
+func TestDeleteArticleHandler(t *testing.T) {
+	var tests = []struct {
+		name       string
+		articleID  string
+		resultCode int
+	}{
+		{name: "number pathparam", articleID: "1", resultCode: http.StatusOK},
+		{name: "alphabet pathparam", articleID: "aaa", resultCode: http.StatusNotFound},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			url := fmt.Sprintf("http://localhost:8080/article/%s", tt.articleID)
+			req := httptest.NewRequest(http.MethodDelete, url, nil)
+
+			res := httptest.NewRecorder()
+
+			r := mux.NewRouter()
+			r.HandleFunc("/article/{id:[0-9]+}", aCon.DeleteArticleHandler).Methods(http.MethodDelete)
+			r.ServeHTTP(res, req)
+
+			if res.Code != tt.resultCode {
+				t.Errorf("unexpected StatusCode: want %d but %d\n", tt.resultCode, res.Code)
+			}
+		})
+	}
+}
