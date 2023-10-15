@@ -43,19 +43,19 @@ func (c *CommentController) UpdateCommentHandler(w http.ResponseWriter, req *htt
 		return
 	}
 
-	var reqComment models.Comment
-	if err := json.NewDecoder(req.Body).Decode(&reqComment); err != nil {
+	var reqUpdateComment models.UpdateComment
+	if err := json.NewDecoder(req.Body).Decode(&reqUpdateComment); err != nil {
 		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
 		apperrors.ErrorHandler(w, req, err)
 	}
 
-	comment, err := c.service.UpdateCommentService(commentID, reqComment)
+	err = c.service.UpdateCommentService(commentID, reqUpdateComment)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
 	}
 
-	json.NewEncoder(w).Encode(comment)
+	json.NewEncoder(w).Encode(err)
 }
 
 func (c *CommentController) DeleteCommentHandler(w http.ResponseWriter, req *http.Request) {
