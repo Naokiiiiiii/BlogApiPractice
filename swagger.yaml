@@ -104,6 +104,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
 
+  # /article/{article_id}:
+  #   put:
+  #     summary: 指定したidの記事を変更する
+  #     tags: ['articles']
+  #     parameters:
+  #       - in: path
+  #         name: article_id
+  #         required: true
+  #         schema:
+  #           type: number
+  #     responses:
+  #       '200':
+  #         description: "SuccessResponse"
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+
   /comment:
     post:
       summary: 指定した記事にコメントを登録する
