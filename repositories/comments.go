@@ -61,12 +61,12 @@ func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 	return commentArray, nil
 }
 
-func UpdateComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
+func UpdateComment(db *sql.DB, comment models.Comment, commentID int) (models.Comment, error) {
 	const sqlStr = `
 		UPDATE comments SET message = ?, updated_at = now() WHERE comment_id = ?;
 	`
 
-	_, err := db.Exec(sqlStr, comment.Message, comment.CommentID)
+	_, err := db.Exec(sqlStr, comment.Message, commentID)
 	if err != nil {
 		fmt.Println(err)
 		return models.Comment{}, err

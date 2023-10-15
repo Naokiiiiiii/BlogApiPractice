@@ -36,13 +36,20 @@ func (c *CommentController) PostCommentHandler(w http.ResponseWriter, req *http.
 }
 
 func (c *CommentController) UpdateCommentHandler(w http.ResponseWriter, req *http.Request) {
+	commentID, err := strconv.Atoi(mux.Vars(req)["id"])
+	if err != nil {
+		err = apperrors.BadParam.Wrap(err, "queryparam must be number")
+		apperrors.ErrorHandler(w, req, err)
+		return
+	}
+
 	var reqComment models.Comment
 	if err := json.NewDecoder(req.Body).Decode(&reqComment); err != nil {
 		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
 		apperrors.ErrorHandler(w, req, err)
 	}
 
-	comment, err := c.service.UpdateCommentService(reqComment)
+	comment, err := c.service.UpdateCommentService(commentID, reqComment)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
