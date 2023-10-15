@@ -20,7 +20,7 @@ type CommentServicer interface {
 }
 
 type NiceServicer interface {
-	PostNiceService(nice models.Nice) (models.Nice, error)
+	CreateOrDeleteNiceService(nice models.Nice) (models.Nice, error)
 }
 
 type UserServicer interface {
