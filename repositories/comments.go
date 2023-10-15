@@ -61,18 +61,18 @@ func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 	return commentArray, nil
 }
 
-func UpdateComment(db *sql.DB, comment models.Comment, commentID int) (models.Comment, error) {
+func UpdateComment(db *sql.DB, updateComment models.UpdateComment, commentID int) error {
 	const sqlStr = `
 		UPDATE comments SET message = ?, updated_at = now() WHERE comment_id = ?;
 	`
 
-	_, err := db.Exec(sqlStr, comment.Message, commentID)
+	_, err := db.Exec(sqlStr, updateComment.Message, commentID)
 	if err != nil {
 		fmt.Println(err)
-		return models.Comment{}, err
+		return err
 	}
 
-	return comment, nil
+	return nil
 }
 
 func DeleteComment(db *sql.DB, commnetID int) error {

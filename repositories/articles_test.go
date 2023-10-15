@@ -2,7 +2,6 @@ package repositories_test
 
 import (
 	"testing"
-	"time"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
@@ -90,21 +89,17 @@ func TestInsertArticle(t *testing.T) {
 }
 
 func TestUpdateArticle(t *testing.T) {
-	article := models.Article{
-		ID:        1,
-		Title:     "Updated Title",
-		Contents:  "Updated Contents",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+
+	updateArticleID := 2
+
+	updateArticleData := models.UpdateArticle{
+		Title:    "Updated Title",
+		Contents: "Updated Contents",
 	}
 
-	resultArticle, err := repositories.UpdateArticle(testDB, article, article.ID)
+	err := repositories.UpdateArticle(testDB, updateArticleData, updateArticleID)
 	if err != nil {
 		t.Error(err)
-	}
-
-	if article.Title != resultArticle.Title {
-		t.Errorf("new article title is expected %s but got %s\n", article.Title, resultArticle.Title)
 	}
 }
 
