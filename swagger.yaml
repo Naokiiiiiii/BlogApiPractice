@@ -152,6 +152,32 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
 
+  /comment/{comment_id}:
+    put:
+      summary: 指定したidの記事を変更する
+      tags: ['comments']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/putCommentRequest'
+        required: true
+      parameters:
+        - in: path
+          name: comment_id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'SuccessResponse'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
   /nice:
     post:
       summary: 指定した記事にいいねを登録する
@@ -256,6 +282,12 @@ components:
           type: number
         user_id:
           type: number
+        message:
+          type: string
+
+    putCommentRequest:
+      type: object
+      properties:
         message:
           type: string
 
