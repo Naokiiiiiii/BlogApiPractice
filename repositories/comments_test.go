@@ -47,19 +47,16 @@ func TestInsertComment(t *testing.T) {
 }
 
 func TestUpdateComment(t *testing.T) {
-	updateComment := models.Comment{
-		CommentID: 1,
-		Message:   "updateCommnet",
+	updateComment := models.UpdateComment{
+		Message: "updateCommnet",
 	}
+	updateCommentID := 2
 
-	newComment, err := repositories.UpdateComment(testDB, updateComment, updateComment.CommentID)
+	err := repositories.UpdateComment(testDB, updateComment, updateCommentID)
 	if err != nil {
 		t.Error(err)
 	}
 
-	if newComment.Message != updateComment.Message {
-		t.Errorf("new comment is expected %s but got %s\n", updateComment.Message, newComment.Message)
-	}
 }
 
 func TestDelete(t *testing.T) {
