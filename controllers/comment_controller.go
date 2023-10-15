@@ -36,7 +36,6 @@ func (c *CommentController) PostCommentHandler(w http.ResponseWriter, req *http.
 }
 
 func (c *CommentController) UpdateCommentHandler(w http.ResponseWriter, req *http.Request) {
-
 	commentID, err := strconv.Atoi(mux.Vars(req)["id"])
 	if err != nil {
 		err = apperrors.BadParam.Wrap(err, "queryparam must be number")
