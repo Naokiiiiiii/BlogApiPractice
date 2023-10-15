@@ -77,13 +77,9 @@ func TestUpdateArticleHandler(t *testing.T) {
 		{name: "alphabet pathparam", articleID: "aaa", resultCode: http.StatusNotFound},
 	}
 
-	testArticle := models.Article{
-		ID:       2,
-		Title:    "2nd",
-		Contents: "Second blog post",
-		UserID:   1,
-		UserName: "naoki",
-		NiceNum:  4,
+	testArticle := models.UpdateArticle{
+		Title:    "update",
+		Contents: "update post",
 	}
 
 	reqBodyBytes, _ := json.Marshal(testArticle)

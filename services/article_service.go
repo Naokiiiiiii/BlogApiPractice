@@ -117,14 +117,14 @@ func (s *MyAppService) GetArticleListService(page int) ([]models.Article, error)
 	return articleList, nil
 }
 
-func (s *MyAppService) UpdateArticleService(articleID int, article models.Article) (models.Article, error) {
-	newArticle, err := repositories.UpdateArticle(s.db, article, articleID)
+func (s *MyAppService) UpdateArticleService(articleID int, updateArticle models.UpdateArticle) error {
+	err := repositories.UpdateArticle(s.db, updateArticle, articleID)
 	if err != nil {
 		err = apperrors.UpdateDataFailed.Wrap(err, "fail to update data")
-		return models.Article{}, err
+		return err
 	}
 
-	return newArticle, nil
+	return nil
 }
 
 func (s *MyAppService) DeleteArticleService(articleID int) error {
