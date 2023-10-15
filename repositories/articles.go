@@ -88,17 +88,17 @@ func SelectArticleDetail(db *sql.DB, articleID int) (models.Article, error) {
 	return article, nil
 }
 
-func UpdateArticle(db *sql.DB, article models.Article, articleID int) (models.Article, error) {
+func UpdateArticle(db *sql.DB, updateArticle models.UpdateArticle, articleID int) error {
 	const sqlStr = `
 		UPDATE articles SET title = ?, contents = ?, updated_at = now() WHERE article_id = ?;
 	`
 
-	_, err := db.Exec(sqlStr, article.Title, article.Contents, articleID)
+	_, err := db.Exec(sqlStr, updateArticle.Title, updateArticle.Contents, articleID)
 	if err != nil {
-		return models.Article{}, err
+		return err
 	}
 
-	return article, nil
+	return nil
 }
 
 func DeleteArticle(db *sql.DB, articleID int) error {

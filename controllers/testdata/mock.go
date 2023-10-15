@@ -20,8 +20,8 @@ func (s *serviceMock) GetArticleService(articleID int) (models.Article, error) {
 	return articleTestData[0], nil
 }
 
-func (s *serviceMock) UpdateArticleService(articleID int, article models.Article) (models.Article, error) {
-	return articleTestData[0], nil
+func (s *serviceMock) UpdateArticleService(articleID int, article models.UpdateArticle) error {
+	return nil
 }
 
 func (s *serviceMock) DeleteArticleService(articleID int) error {

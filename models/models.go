@@ -24,6 +24,11 @@ type Article struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
+type UpdateArticle struct {
+	Title    string `json:"title"`
+	Contents string `json:"contents"`
+}
+
 type User struct {
 	UserID    int       `json:"user_id"`
 	GoogleID  string    `json:"google_id"`

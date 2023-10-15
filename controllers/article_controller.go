@@ -92,20 +92,20 @@ func (c *ArticleController) UpdateArticleHandler(w http.ResponseWriter, req *htt
 		return
 	}
 
-	var reqArticle models.Article
+	var reqArticle models.UpdateArticle
 	if err := json.NewDecoder(req.Body).Decode(&reqArticle); err != nil {
 		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad resuest body")
 		apperrors.ErrorHandler(w, req, err)
 	}
 
-	article, err := c.service.UpdateArticleService(articleID, reqArticle)
+	err = c.service.UpdateArticleService(articleID, reqArticle)
 
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
 	}
 
-	json.NewEncoder(w).Encode(article)
+	json.NewEncoder(w).Encode(err)
 }
 
 func (c *ArticleController) DeleteArticleHandler(w http.ResponseWriter, req *http.Request) {
