@@ -35,6 +35,17 @@ func SelectArticleNiceList(db *sql.DB, articleID int) ([]models.Nice, error) {
 	return NiceArray, nil
 }
 
+func ExistNice(db *sql.DB, nice models.Nice) error {
+	const sqlStr = `
+		select * from nices where article_id = ? and user_id = ?;
+	`
+	var result models.Nice
+	row := db.QueryRow(sqlStr, nice.ArticleID, nice.UserID)
+	err := row.Scan(&result.NiceID, &result.UserID, &result.ArticleID, &result.CreatedAt)
+
+	return err
+}
+
 func InsertNice(db *sql.DB, nice models.Nice) (models.Nice, error) {
 	const sqlStr = `insert into nices (article_id, user_id, created_at) values
 		(?, ?, now());
@@ -52,4 +63,15 @@ func InsertNice(db *sql.DB, nice models.Nice) (models.Nice, error) {
 	newNice.NiceID = int(id)
 
 	return newNice, nil
+}
+
+func DeleteNice(db *sql.DB, nice models.Nice) error {
+	const sqlStr = `DELETE FROM nices where article_id = ? and user_id = ?;`
+	_, err := db.Exec(sqlStr, nice.ArticleID, nice.UserID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
