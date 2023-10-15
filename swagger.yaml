@@ -103,24 +103,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-
-  # /article/{article_id}:
-  #   put:
-  #     summary: 指定したidの記事を変更する
-  #     tags: ['articles']
-  #     parameters:
-  #       - in: path
-  #         name: article_id
-  #         required: true
-  #         schema:
-  #           type: number
-  #     responses:
-  #       '200':
-  #         description: "SuccessResponse"
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
+    put:
+      summary: 指定したidの記事を変更する
+      tags: ['articles']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/putArticleRequest'
+        required: true
+      parameters:
+        - in: path
+          name: article_id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'SuccessResponse'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 
   /comment:
     post:
@@ -234,6 +240,14 @@ components:
       items:
         type: object
         $ref: '#/components/schemas/article'
+
+    putArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        contents:
+          type: string
 
     postCommentRequest:
       type: object
