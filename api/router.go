@@ -27,6 +27,7 @@ func NewRouter(db *sql.DB) *mux.Router {
 	r.HandleFunc("/comment/{id:[0-9]+}", cCon.UpdateCommentHandler).Methods(http.MethodPut)
 	r.HandleFunc("/article/{id:[0-9]+}", aCon.DeleteArticleHandler).Methods(http.MethodDelete)
 	r.HandleFunc("/comment/{id:[0-9]+}", cCon.DeleteCommentHandler).Methods(http.MethodDelete)
+	r.HandleFunc("/article/nice", nCon.CreateOrDeleteNiceHandler).Methods(http.MethodPost)
 
 	// 認証が必要なAPI
 	authRequired := r.PathPrefix("/").Subrouter()
@@ -35,7 +36,7 @@ func NewRouter(db *sql.DB) *mux.Router {
 	authRequired.HandleFunc("/article", aCon.PostArticleHandler).Methods(http.MethodPost)
 	authRequired.HandleFunc("/article/list", aCon.ArticleListHandler).Methods(http.MethodGet)
 	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler).Methods(http.MethodGet)
-	authRequired.HandleFunc("/article/nice", nCon.PostNiceHandler).Methods(http.MethodPost)
+	authRequired.HandleFunc("/article/nice", nCon.CreateOrDeleteNiceHandler).Methods(http.MethodPost)
 	authRequired.HandleFunc("/comment", cCon.PostCommentHandler).Methods(http.MethodPost)
 
 	return r

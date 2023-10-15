@@ -17,14 +17,14 @@ func NewNiceController(s services.NiceServicer) *NiceController {
 	return &NiceController{services: s}
 }
 
-func (n *NiceController) PostNiceHandler(w http.ResponseWriter, req *http.Request) {
+func (n *NiceController) CreateOrDeleteNiceHandler(w http.ResponseWriter, req *http.Request) {
 	var reqNice models.Nice
 	if err := json.NewDecoder(req.Body).Decode(&reqNice); err != nil {
 		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
 		apperrors.ErrorHandler(w, req, err)
 	}
 
-	nice, err := n.services.PostNiceService(reqNice)
+	nice, err := n.services.CreateOrDeleteNiceService(reqNice)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
