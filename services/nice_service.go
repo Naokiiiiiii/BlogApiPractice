@@ -3,7 +3,6 @@ package services
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/apperrors"
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
@@ -13,7 +12,7 @@ import (
 func (s *MyAppService) CreateOrDeleteNiceService(nice models.Nice) (models.Nice, error) {
 
 	err := repositories.ExistNice(s.db, nice)
-	fmt.Println(err)
+
 	if errors.Is(err, sql.ErrNoRows) {
 		newNice, err := repositories.InsertNice(s.db, nice)
 		if err != nil {
