@@ -35,18 +35,13 @@ func (c *UserController) GoogleLoginHandler(w http.ResponseWriter, req *http.Req
 
 func (c *UserController) GoogleCallbackHandler(w http.ResponseWriter, req *http.Request) {
 	code := req.URL.Query().Get("code")
-	token, userInfo, err := c.service.GoogleCallbackService(code)
+	token, err := c.service.GoogleCallbackService(code)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
 	}
 
-	// userinfoのエラー回避のため出力
-	fmt.Println("userinfo", userInfo)
-
 	fmt.Println("token", token.RefreshToken)
-
-	// DBにユーザー情報格納
 
 	json.NewEncoder(w).Encode(token)
 }
