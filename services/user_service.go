@@ -56,8 +56,6 @@ func (s *MyAppService) GoogleCallbackService(code string) (*oauth2.Token, error)
 		return nil, err
 	}
 
-	fmt.Println(userInfo)
-
 	err = repositories.ExistUser(s.db, userInfo)
 	if errors.Is(err, sql.ErrNoRows) {
 		_, err := repositories.InsertUser(s.db, userInfo)
