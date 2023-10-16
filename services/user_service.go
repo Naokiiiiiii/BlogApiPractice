@@ -2,7 +2,9 @@ package services
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 
@@ -13,8 +15,8 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
-func (s *MyAppService) PostUserService(user models.User) (models.User, error) {
-	newUser, err := repositories.InsertUser(s.db, user)
+func (s *MyAppService) PostUserService(googleUser models.GoogleUserDataResponse) (models.User, error) {
+	newUser, err := repositories.InsertUser(s.db, googleUser)
 	if err != nil {
 		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
 		return models.User{}, err
@@ -23,7 +25,7 @@ func (s *MyAppService) PostUserService(user models.User) (models.User, error) {
 	return newUser, nil
 }
 
-func (s *MyAppService) GoogleCallbackService(code string) (*oauth2.Token, map[string]interface{}, error) {
+func (s *MyAppService) GoogleCallbackService(code string) (*oauth2.Token, error) {
 
 	config := oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIANT_ID"),
@@ -36,25 +38,37 @@ func (s *MyAppService) GoogleCallbackService(code string) (*oauth2.Token, map[st
 	token, err := config.Exchange(context.Background(), code)
 	if err != nil {
 		err = apperrors.ExchangeTokenFailed.Wrap(err, "fail to exchange code for token")
-		return nil, nil, err
+		return nil, err
 	}
 
 	client := config.Client(context.Background(), token)
 	response, err := client.Get("https://www.googleapis.com/oauth2/v2/userinfo")
 	if err != nil {
 		err = apperrors.GetUserInfoFailed.Wrap(err, "fail to get user info")
-		return nil, nil, err
+		return nil, err
 	}
 	defer response.Body.Close()
 
-	var userInfo map[string]interface{}
+	var userInfo models.GoogleUserDataResponse
 	err = json.NewDecoder(response.Body).Decode(&userInfo)
 	if err != nil {
 		err = apperrors.DecodeUserInfoFailed.Wrap(err, "fail to decode user info")
-		return nil, nil, err
+		return nil, err
 	}
 
-	return token, userInfo, nil
+	err = repositories.ExistUser(s.db, userInfo)
+	if errors.Is(err, sql.ErrNoRows) {
+		_, err := repositories.InsertUser(s.db, userInfo)
+		if err != nil {
+			err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
+			return nil, err
+		}
+		return token, nil
+	} else if err != nil {
+		return nil, err
+	} else {
+		return token, nil
+	}
 }
 
 func (s *MyAppService) RegenerateAccessTokenService(refreshToken models.RefreshToken) (*oauth2.Token, error) {

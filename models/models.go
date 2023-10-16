@@ -42,6 +42,18 @@ type User struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+type GoogleUserDataResponse struct {
+	Email         string `json:"email"`
+	FamilyName    string `json:"family_name"`
+	GivenName     string `json:"given_name"`
+	Hd            string `json:"hd"`
+	Id            string `json:"id"`
+	Locale        string `json:"locale"`
+	Name          string `json:"name"`
+	Picture       string `json:"picture"`
+	VerifiedEmail bool   `json:"verified_email"`
+}
+
 type Nice struct {
 	NiceID    int       `json:"nice_id"`
 	UserID    int       `json:"user_id"`
