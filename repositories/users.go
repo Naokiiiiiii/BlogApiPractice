@@ -26,25 +26,30 @@ func InsertUser(db *sql.DB, googleUser models.GoogleUserDataResponse) (models.Us
 	return newUser, nil
 }
 
-func GetUser(db *sql.DB, userID int) (models.User, error) {
+func GetUser(db *sql.DB, googleID int) (models.User, error) {
 	const sqlStr = `
-		select * from users where email = ?;	
+		select * from users where google_id = ?;	
 	`
 
-	row := db.QueryRow(sqlStr, userID)
+	row := db.QueryRow(sqlStr, googleID)
 	if err := row.Err(); err != nil {
 		return models.User{}, err
 	}
 
 	var user models.User
 	var createdTime sql.NullTime
-	err := row.Scan(&user.UserID, &user.UserName, &user.GoogleID, &createdTime)
+	var updatedTime sql.NullTime
+	err := row.Scan(&user.UserID, &user.UserName, &user.GoogleID, &createdTime, &updatedTime)
 	if err != nil {
 		return models.User{}, err
 	}
 
 	if createdTime.Valid {
 		user.CreatedAt = createdTime.Time
+	}
+
+	if updatedTime.Valid {
+		user.UpdatedAt = updatedTime.Time
 	}
 
 	return user, nil
