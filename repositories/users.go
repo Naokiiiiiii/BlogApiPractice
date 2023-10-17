@@ -28,7 +28,7 @@ func InsertUser(db *sql.DB, googleUser models.GoogleUserDataResponse) (models.Us
 
 func GetUser(db *sql.DB, googleID int) (models.User, error) {
 	const sqlStr = `
-		select * from users where google_id = ?;	
+		select * from users where google_id = ?;
 	`
 
 	row := db.QueryRow(sqlStr, googleID)
