@@ -203,6 +203,22 @@ paths:
 
 components:
   schemas:
+    user:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        google_id:
+          type: integer
+        user_name:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+
     article:
       type: object
       properties:
@@ -212,15 +228,15 @@ components:
           type: string
         contents:
           type: string
-        userID:
+        user_id:
           type: integer
-        userName:
+        user_name:
           type: string
-        niceNum:
+        nice_num:
           type: integer
-        createdAt:
+        created_at:
           type: string
-        commentList:
+        comment_list:
           type: array
           items:
             $ref: '#/components/schemas/comment'
