@@ -34,6 +34,7 @@ func (c *UserController) GoogleLoginHandler(w http.ResponseWriter, req *http.Req
 }
 
 func (c *UserController) GoogleCallbackHandler(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("reqURL", req.URL)
 	code := req.URL.Query().Get("code")
 	token, err := c.service.GoogleCallbackService(code)
 	if err != nil {

@@ -8,8 +8,8 @@ import (
 
 func InsertUser(db *sql.DB, googleUser models.GoogleUserDataResponse) (models.User, error) {
 
-	const sqlStr = `insert into users (google_id, username, email, created_at) values
-		(?, ?, ?, now());
+	const sqlStr = `insert into users (google_id, username, email, created_at, updated_at) values
+		(?, ?, ?, now(), now());
 	`
 
 	var newUser models.User
