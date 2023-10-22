@@ -25,7 +25,7 @@ func (c *UserController) GoogleLoginHandler(w http.ResponseWriter, req *http.Req
 	config := oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIANT_ID"),
 		ClientSecret: os.Getenv("GOOGLE_CLIANT_SECRET"),
-		RedirectURL:  "http://localhost:8080/callback",
+		RedirectURL:  "http://localhost:5173",
 		Endpoint:     google.Endpoint,
 		Scopes:       []string{"profile", "email"},
 	}
@@ -33,16 +33,21 @@ func (c *UserController) GoogleLoginHandler(w http.ResponseWriter, req *http.Req
 	http.Redirect(w, req, url, http.StatusFound)
 }
 
-func (c *UserController) GoogleCallbackHandler(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("reqURL", req.URL)
-	code := req.URL.Query().Get("code")
-	token, err := c.service.GoogleCallbackService(code)
+func (c *UserController) GoogleTokenHandler(w http.ResponseWriter, req *http.Request) {
+
+	var googleOAuthCode models.GoogleOAuthCode
+	if err := json.NewDecoder(req.Body).Decode(&googleOAuthCode); err != nil {
+		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
+		apperrors.ErrorHandler(w, req, err)
+	}
+
+	token, err := c.service.GoogleCallbackService(googleOAuthCode.Code)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
 	}
 
-	fmt.Println("token", token.RefreshToken)
+	fmt.Println("token", token)
 
 	json.NewEncoder(w).Encode(token)
 }

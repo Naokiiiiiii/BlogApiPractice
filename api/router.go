@@ -22,7 +22,7 @@ func NewRouter(db *sql.DB) *mux.Router {
 
 	// 認証が必要ないAPI
 	r.HandleFunc("/login", uCon.GoogleLoginHandler)
-	r.HandleFunc("/callback", uCon.GoogleCallbackHandler)
+	r.HandleFunc("/token", uCon.GoogleTokenHandler).Methods(http.MethodGet)
 	r.HandleFunc("/regenerateToken", uCon.RegenerateAccessTokenHandler).Methods(http.MethodPost)
 
 	r.HandleFunc("/article/{id:[0-9]+}", aCon.UpdateArticleHandler).Methods(http.MethodPut)
