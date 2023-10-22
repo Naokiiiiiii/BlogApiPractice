@@ -30,6 +30,28 @@ paths:
   #           application/json:
   #             schema:
   #               '$ref': '#/components/schemas/UserResponse'
+  /token:
+    get:
+      summary: アクセストークン、リフレッシュトークンを取得する
+      tags: ['users']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getCallbackTokenRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/getCallbackTokenResponse'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /article:
     post:
       summary: 記事を投稿する
@@ -263,6 +285,24 @@ components:
         user_id:
           type: number
 
+    getCallbackTokenRequest:
+      type: object
+      properties:
+        code:
+          type: string
+
+    getCallbackTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        expiry:
+          type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+
     postArticleRequest:
       type: object
       properties:
@@ -314,6 +354,11 @@ components:
           type: number
         user_id:
           type: number
+    postGoogleCallbackRequest:
+      type: object
+      properties:
+        code:
+          type: string
     error:
       type: object
       properties:
