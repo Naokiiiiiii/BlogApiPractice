@@ -18,6 +18,8 @@ func NewRouter(db *sql.DB) *mux.Router {
 	uCon := controllers.NewUserController(ser)
 	r := mux.NewRouter()
 
+	r.Use(middlewares.CorsMiddleware)
+
 	// 認証が必要ないAPI
 	r.HandleFunc("/login", uCon.GoogleLoginHandler)
 	r.HandleFunc("/callback", uCon.GoogleCallbackHandler)
