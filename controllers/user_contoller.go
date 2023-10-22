@@ -33,7 +33,7 @@ func (c *UserController) GoogleLoginHandler(w http.ResponseWriter, req *http.Req
 	http.Redirect(w, req, url, http.StatusFound)
 }
 
-func (c *UserController) GoogleCallbackHandler(w http.ResponseWriter, req *http.Request) {
+func (c *UserController) GoogleTokenHandler(w http.ResponseWriter, req *http.Request) {
 
 	var googleOAuthCode models.GoogleOAuthCode
 	if err := json.NewDecoder(req.Body).Decode(&googleOAuthCode); err != nil {
