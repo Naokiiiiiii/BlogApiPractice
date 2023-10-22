@@ -64,3 +64,7 @@ type Nice struct {
 type RefreshToken struct {
 	RefreshToken string `json:"refresh_token"`
 }
+
+type GoogleOAuthCode struct {
+	Code string `json:"code"`
+}

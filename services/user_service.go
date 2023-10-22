@@ -30,7 +30,7 @@ func (s *MyAppService) GoogleCallbackService(code string) (*oauth2.Token, error)
 	config := oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIANT_ID"),
 		ClientSecret: os.Getenv("GOOGLE_CLIANT_SECRET"),
-		RedirectURL:  "http://localhost:8080/callback",
+		RedirectURL:  "http://localhost:5173",
 		Endpoint:     google.Endpoint,
 		Scopes:       []string{"profile", "email"},
 	}
