@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 
@@ -46,8 +45,6 @@ func (c *UserController) GoogleTokenHandler(w http.ResponseWriter, req *http.Req
 		apperrors.ErrorHandler(w, req, err)
 		return
 	}
-
-	fmt.Println("token", token)
 
 	json.NewEncoder(w).Encode(token)
 }
