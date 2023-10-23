@@ -26,12 +26,12 @@ func InsertUser(db *sql.DB, googleUser models.GoogleUserDataResponse) (models.Us
 	return newUser, nil
 }
 
-func GetUser(db *sql.DB, googleID int) (models.User, error) {
+func GetUser(db *sql.DB, email string) (models.User, error) {
 	const sqlStr = `
-		select * from users where google_id = ?;
+		select * from users where email = ?;
 	`
 
-	row := db.QueryRow(sqlStr, googleID)
+	row := db.QueryRow(sqlStr, email)
 	if err := row.Err(); err != nil {
 		return models.User{}, err
 	}
