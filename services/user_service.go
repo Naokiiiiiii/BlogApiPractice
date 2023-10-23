@@ -15,16 +15,6 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
-func (s *MyAppService) PostUserService(googleUser models.GoogleUserDataResponse) (models.User, error) {
-	newUser, err := repositories.InsertUser(s.db, googleUser)
-	if err != nil {
-		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
-		return models.User{}, err
-	}
-
-	return newUser, nil
-}
-
 func (s *MyAppService) GoogleCallbackService(code string) (*oauth2.Token, error) {
 
 	config := oauth2.Config{
