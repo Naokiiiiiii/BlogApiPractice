@@ -83,3 +83,14 @@ func (s *MyAppService) RegenerateAccessTokenService(refreshToken models.RefreshT
 
 	return newToken, nil
 }
+
+func (s *MyAppService) UpdateUserService(userID int, updateUser models.UpdateUser) error {
+	err := repositories.UpdateUser(s.db, userID, updateUser)
+
+	if err != nil {
+		err = apperrors.UpdateDataFailed.Wrap(err, "fail to update data")
+		return err
+	}
+
+	return nil
+}
