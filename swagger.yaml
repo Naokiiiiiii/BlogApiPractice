@@ -30,6 +30,32 @@ paths:
   #           application/json:
   #             schema:
   #               '$ref': '#/components/schemas/UserResponse'
+  /user/{user_id}:
+    put:
+      summary: 指定したidのユーザー情報を変更する
+      tags: ['users']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/putUserRequest'
+        required: true
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'SuccessResponse'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
   /token:
     get:
       summary: アクセストークン、リフレッシュトークンを取得する
@@ -284,6 +310,12 @@ components:
           type: number
         user_id:
           type: number
+
+    putUserRequest:
+      type: object
+      properties:
+        user_name:
+          type: string
 
     getCallbackTokenRequest:
       type: object
