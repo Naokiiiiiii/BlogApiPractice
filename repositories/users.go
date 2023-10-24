@@ -65,3 +65,16 @@ func ExistUser(db *sql.DB, googleUser models.GoogleUserDataResponse) error {
 
 	return err
 }
+
+func UpdateUser(db *sql.DB, userID int, updateUser models.UpdateUser) error {
+	const sqlStr = `
+		UPDATE users SET username = ?, updated_at = now() WHERE user_id = ?;
+	`
+
+	_, err := db.Exec(sqlStr, updateUser.UserName, userID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
