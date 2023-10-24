@@ -42,6 +42,10 @@ type User struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+type UpdateUser struct {
+	UserName string `json:"user_name"`
+}
+
 type GoogleUserDataResponse struct {
 	Email         string `json:"email"`
 	FamilyName    string `json:"family_name"`

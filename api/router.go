@@ -26,6 +26,8 @@ func NewRouter(db *sql.DB) *mux.Router {
 	r.HandleFunc("/token", uCon.GoogleTokenHandler)
 	r.HandleFunc("/regenerateToken", uCon.RegenerateAccessTokenHandler).Methods(http.MethodPost)
 
+	r.HandleFunc("/user/{id:[0-9]+}", uCon.UpdateUserHandler).Methods(http.MethodPut)
+
 	// 認証が必要なAPI
 	authRequired := r.PathPrefix("/").Subrouter()
 	authRequired.Use(middlewares.AuthMiddleware)

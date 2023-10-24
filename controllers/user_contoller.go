@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/apperrors"
 	"github.com/Naokiiiiiii/BlogApiPractice/controllers/services"
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
+	"github.com/gorilla/mux"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -64,4 +66,27 @@ func (c *UserController) RegenerateAccessTokenHandler(w http.ResponseWriter, req
 	}
 
 	json.NewEncoder(w).Encode(newToken)
+}
+
+func (c *UserController) UpdateUserHandler(w http.ResponseWriter, req *http.Request) {
+	userID, err := strconv.Atoi(mux.Vars(req)["id"])
+	if err != nil {
+		err = apperrors.BadParam.Wrap(err, "queryparam must be number")
+		apperrors.ErrorHandler(w, req, err)
+		return
+	}
+
+	var reqUpdateUser models.UpdateUser
+	if err := json.NewDecoder(req.Body).Decode(&reqUpdateUser); err != nil {
+		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad resuest body")
+		apperrors.ErrorHandler(w, req, err)
+	}
+
+	err = c.service.UpdateUserService(userID, reqUpdateUser)
+	if err != nil {
+		apperrors.ErrorHandler(w, req, err)
+		return
+	}
+
+	json.NewEncoder(w).Encode(err)
 }
