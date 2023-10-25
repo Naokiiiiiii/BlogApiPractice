@@ -1,11 +1,16 @@
 package services
 
-import "database/sql"
+import (
+	"database/sql"
+
+	"golang.org/x/oauth2"
+)
 
 type MyAppService struct {
-	db *sql.DB
+	db     *sql.DB
+	config oauth2.Config
 }
 
-func NewMyAppService(db *sql.DB) *MyAppService {
-	return &MyAppService{db: db}
+func NewMyAppService(db *sql.DB, config oauth2.Config) *MyAppService {
+	return &MyAppService{db: db, config: config}
 }
