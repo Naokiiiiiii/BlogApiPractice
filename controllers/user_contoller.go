@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"os"
 	"strconv"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/apperrors"
@@ -11,26 +10,19 @@ import (
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/gorilla/mux"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
 )
 
 type UserController struct {
 	service services.UserServicer
+	config  oauth2.Config
 }
 
-func NewUserController(s services.UserServicer) *UserController {
-	return &UserController{service: s}
+func NewUserController(s services.UserServicer, config oauth2.Config) *UserController {
+	return &UserController{service: s, config: config}
 }
 
 func (c *UserController) GoogleLoginHandler(w http.ResponseWriter, req *http.Request) {
-	config := oauth2.Config{
-		ClientID:     os.Getenv("GOOGLE_CLIANT_ID"),
-		ClientSecret: os.Getenv("GOOGLE_CLIANT_SECRET"),
-		RedirectURL:  "http://localhost:5173",
-		Endpoint:     google.Endpoint,
-		Scopes:       []string{"profile", "email"},
-	}
-	url := config.AuthCodeURL("", oauth2.AccessTypeOffline)
+	url := c.config.AuthCodeURL("", oauth2.AccessTypeOffline)
 	http.Redirect(w, req, url, http.StatusFound)
 }
 
