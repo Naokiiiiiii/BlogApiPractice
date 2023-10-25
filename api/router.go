@@ -8,14 +8,16 @@ import (
 	"github.com/Naokiiiiiii/BlogApiPractice/controllers"
 	"github.com/Naokiiiiiii/BlogApiPractice/services"
 	"github.com/gorilla/mux"
+	"golang.org/x/oauth2"
 )
 
-func NewRouter(db *sql.DB) *mux.Router {
-	ser := services.NewMyAppService(db)
+func NewRouter(db *sql.DB, config oauth2.Config) *mux.Router {
+
+	ser := services.NewMyAppService(db, config)
 	aCon := controllers.NewArticleController(ser)
 	cCon := controllers.NewCommentController(ser)
 	nCon := controllers.NewNiceController(ser)
-	uCon := controllers.NewUserController(ser)
+	uCon := controllers.NewUserController(ser, config)
 	r := mux.NewRouter()
 
 	r.Use(middlewares.CorsMiddleware)
