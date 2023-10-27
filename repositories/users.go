@@ -39,7 +39,7 @@ func GetUser(db *sql.DB, email string) (models.User, error) {
 	var user models.User
 	var createdTime sql.NullTime
 	var updatedTime sql.NullTime
-	err := row.Scan(&user.UserID, &user.UserName, &user.GoogleID, &createdTime, &updatedTime)
+	err := row.Scan(&user.UserID, &user.UserName, &user.GoogleID, &user.Email, &createdTime, &updatedTime)
 	if err != nil {
 		return models.User{}, err
 	}
