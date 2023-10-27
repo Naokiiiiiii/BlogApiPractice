@@ -72,3 +72,9 @@ type RefreshToken struct {
 type GoogleOAuthCode struct {
 	Code string `json:"code"`
 }
+
+type GoogleOAuthToken struct {
+	AccessToken  string `json:"access_token"`
+	IDToken      string `json:"id_token"`
+	RefreshToken string `json:"refresh_token"`
+}
