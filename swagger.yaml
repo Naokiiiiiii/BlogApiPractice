@@ -58,7 +58,7 @@ paths:
 
   /token:
     get:
-      summary: アクセストークン、リフレッシュトークンを取得する
+      summary: IDトークン、アクセストークン、リフレッシュトークンを取得する
       tags: ['users']
       requestBody:
         content:
@@ -326,13 +326,11 @@ components:
     getCallbackTokenResponse:
       type: object
       properties:
+        id_token:
+          type: string
         access_token:
           type: string
-        expiry:
-          type: string
         refresh_token:
-          type: string
-        token_type:
           type: string
 
     postArticleRequest:
