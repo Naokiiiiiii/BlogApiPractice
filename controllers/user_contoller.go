@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/apperrors"
 	"github.com/Naokiiiiiii/BlogApiPractice/controllers/services"
@@ -58,6 +59,19 @@ func (c *UserController) RegenerateAccessTokenHandler(w http.ResponseWriter, req
 	}
 
 	json.NewEncoder(w).Encode(newToken)
+}
+
+func (c *UserController) SelectUserInfoHandler(w http.ResponseWriter, req *http.Request) {
+	authorizationHeader := req.Header.Get("Authorization")
+
+	authHeaders := strings.Split(authorizationHeader, " ")
+
+	if len(authHeaders) == 2 && authHeaders[0] == "Bearer" {
+		accessToken := authHeaders[1]
+		user, _ := c.service.GetUserService(accessToken)
+		json.NewEncoder(w).Encode(user)
+	}
+
 }
 
 func (c *UserController) UpdateUserHandler(w http.ResponseWriter, req *http.Request) {
