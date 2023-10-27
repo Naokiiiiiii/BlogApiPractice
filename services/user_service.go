@@ -10,6 +10,7 @@ import (
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
 	"golang.org/x/oauth2"
+	"google.golang.org/api/idtoken"
 )
 
 func (s *MyAppService) GoogleCallbackService(code string) (models.GoogleOAuthToken, error) {
@@ -78,26 +79,18 @@ func (s *MyAppService) RegenerateAccessTokenService(refreshToken models.RefreshT
 	return newToken, nil
 }
 
-func (s *MyAppService) GetUserService(accessToken string) (models.User, error) {
-	token := &oauth2.Token{AccessToken: accessToken}
+func (s *MyAppService) GetUserService(idToken string) (models.User, error) {
 
-	client := s.config.Client(context.Background(), token)
-	response, err := client.Get("https://www.googleapis.com/oauth2/v2/userinfo")
+	payload, err := idtoken.ParsePayload(idToken)
 
 	if err != nil {
-		err = apperrors.GetUserInfoFailed.Wrap(err, "fail to get user info")
-		return models.User{}, err
-	}
-	defer response.Body.Close()
-
-	var googleUserInfo models.GoogleUserDataResponse
-	err = json.NewDecoder(response.Body).Decode(&googleUserInfo)
-	if err != nil {
-		err = apperrors.DecodeUserInfoFailed.Wrap(err, "fail to decode user info")
+		err = apperrors.ParsePayloadFailed.Wrap(err, "fail to parse payload")
 		return models.User{}, err
 	}
 
-	user, err := repositories.GetUser(s.db, googleUserInfo.Email)
+	email := payload.Claims["email"].(string)
+
+	user, err := repositories.GetUser(s.db, email)
 	if err != nil {
 		err = apperrors.GetDataFailed.Wrap(err, "fail to update data")
 		return models.User{}, err
