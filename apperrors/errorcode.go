@@ -21,7 +21,7 @@ const (
 	NotMatchUser                ErrCode = "A004"
 	GetUserInfoFailed           ErrCode = "A005"
 	ExchangeTokenFailed         ErrCode = "A006"
-	GetRefreshTokenFailed       ErrCode = "A007"
-	DecodeUserInfoFailed        ErrCode = "A008"
-	RefreshTokenFailed          ErrCode = "A009"
+	DecodeUserInfoFailed        ErrCode = "A007"
+	ExchangeRefreshTokenFailed  ErrCode = "A008"
+	GetIDTokenFailed            ErrCode = "A009"
 )
