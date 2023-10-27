@@ -33,6 +33,7 @@ func NewRouter(db *sql.DB, config oauth2.Config) *mux.Router {
 	authRequired.Use(middlewares.AuthMiddleware)
 
 	// ユーザーAPI
+	authRequired.HandleFunc("/user", uCon.SelectUserInfoHandler)
 	authRequired.HandleFunc("/user/{id:[0-9]+}", uCon.UpdateUserHandler).Methods(http.MethodPut)
 
 	// 記事API

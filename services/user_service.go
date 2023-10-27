@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
-	"fmt"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/apperrors"
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
@@ -59,12 +58,39 @@ func (s *MyAppService) RegenerateAccessTokenService(refreshToken models.RefreshT
 
 	newToken, err := s.config.TokenSource(context.Background(), token).Token()
 	if err != nil {
-		fmt.Println("Failed to refresh token:", err)
 		err = apperrors.RefreshTokenFailed.Wrap(err, "Failed to refresh token")
 		return nil, err
 	}
 
 	return newToken, nil
+}
+
+func (s *MyAppService) GetUserService(accessToken string) (models.User, error) {
+	token := &oauth2.Token{AccessToken: accessToken}
+
+	client := s.config.Client(context.Background(), token)
+	response, err := client.Get("https://www.googleapis.com/oauth2/v2/userinfo")
+
+	if err != nil {
+		err = apperrors.GetUserInfoFailed.Wrap(err, "fail to get user info")
+		return models.User{}, err
+	}
+	defer response.Body.Close()
+
+	var googleUserInfo models.GoogleUserDataResponse
+	err = json.NewDecoder(response.Body).Decode(&googleUserInfo)
+	if err != nil {
+		err = apperrors.DecodeUserInfoFailed.Wrap(err, "fail to decode user info")
+		return models.User{}, err
+	}
+
+	user, err := repositories.GetUser(s.db, googleUserInfo.Email)
+	if err != nil {
+		err = apperrors.GetDataFailed.Wrap(err, "fail to update data")
+		return models.User{}, err
+	}
+
+	return user, nil
 }
 
 func (s *MyAppService) UpdateUserService(userID int, updateUser models.UpdateUser) error {
