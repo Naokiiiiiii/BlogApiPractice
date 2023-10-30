@@ -65,6 +65,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/getCallbackTokenRequest'
+        required: true
       responses:
         '200':
           description: Successful Response
