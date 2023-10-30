@@ -322,6 +322,8 @@ components:
       properties:
         code:
           type: string
+      required:
+        - code
 
     getCallbackTokenResponse:
       type: object
