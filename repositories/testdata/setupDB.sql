@@ -38,7 +38,7 @@ create table if not exists nices (
 );
 
 -- データの挿入
-insert into users (username, email, created_at, updated_at) values ('naoki', 'exsample@gmail.com', now(), now());
+insert into users (google_id, username, email, created_at, updated_at) values (123123123, 'naoki', 'exsample@gmail.com', now(), now());
 
 insert into articles (title, contents, user_id, created_at, updated_at) values ('firstPost', 'This is my first blog', 1, now(), now()); 
 
