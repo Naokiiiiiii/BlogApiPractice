@@ -19,17 +19,23 @@ tags:
     description: 'いいねの操作'
 
 paths:
-  # /user:
-  #   get:
-  #     summary: 自身のユーザー情報を返す
-  #     tags: ['users']
-  #     responses:
-  #       '200':
-  #         description: Successful Response
-  #         content:
-  #           application/json:
-  #             schema:
-  #               '$ref': '#/components/schemas/UserResponse'
+  /user:
+    get:
+      summary: 自身のユーザー情報を返す
+      tags: ['users']
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/getUserResponse'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/{user_id}:
     put:
       summary: 指定したidのユーザー情報を変更する
@@ -311,6 +317,22 @@ components:
           type: number
         user_id:
           type: number
+
+    getUserResponse:
+      type: object
+      properties:
+        user_id:
+          type: string
+        google_id:
+          type: string
+        user_name:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
 
     putUserRequest:
       type: object
