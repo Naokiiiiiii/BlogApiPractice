@@ -78,7 +78,29 @@ paths:
           content:
             application/json:
               schema:
-                '$ref': '#/components/schemas/getCallbackTokenResponse'
+                $ref: '#/components/schemas/token'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /regenearte_token:
+    get:
+      summary: IDトークン、アクセストークンを再取得
+      tags: ['users']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getRegenerateTokenRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token'
         '400':
           description: 'Error'
           content:
@@ -318,6 +340,16 @@ components:
         user_id:
           type: number
 
+    token:
+      type: object
+      properties:
+        id_token:
+          type: string
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+
     getUserResponse:
       type: object
       properties:
@@ -348,15 +380,13 @@ components:
       required:
         - code
 
-    getCallbackTokenResponse:
+    getRegenerateTokenRequest:
       type: object
       properties:
-        id_token:
-          type: string
-        access_token:
-          type: string
         refresh_token:
           type: string
+      required:
+        - refresh_token
 
     postArticleRequest:
       type: object
