@@ -64,7 +64,7 @@ func (s *MyAppService) GoogleCallbackService(code string) (models.GoogleOAuthTok
 	}
 }
 
-func (s *MyAppService) RegenerateAccessTokenService(refreshToken models.RefreshToken) (*oauth2.Token, error) {
+func (s *MyAppService) RegenerateAccessTokenService(refreshToken models.RefreshToken) (models.GoogleOAuthToken, error) {
 
 	token := &oauth2.Token{
 		RefreshToken: refreshToken.RefreshToken,
@@ -73,10 +73,23 @@ func (s *MyAppService) RegenerateAccessTokenService(refreshToken models.RefreshT
 	newToken, err := s.config.TokenSource(context.Background(), token).Token()
 	if err != nil {
 		err = apperrors.ExchangeRefreshTokenFailed.Wrap(err, "Failed to refresh token")
-		return nil, err
+		return models.GoogleOAuthToken{}, err
 	}
 
-	return newToken, nil
+	idToken, ok := newToken.Extra("id_token").(string)
+	if !ok {
+		err = errors.New("")
+		err = apperrors.GetIDTokenFailed.Wrap(err, "Failed to extract id_token")
+		return models.GoogleOAuthToken{}, err
+	}
+
+	googleToken := models.GoogleOAuthToken{
+		AccessToken:  newToken.AccessToken,
+		IDToken:      idToken,
+		RefreshToken: newToken.RefreshToken,
+	}
+
+	return googleToken, nil
 }
 
 func (s *MyAppService) GetUserService(idToken string) (models.User, error) {
