@@ -9,6 +9,33 @@ import (
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
 )
 
+func TestInsertUser(t *testing.T) {
+	user := models.GoogleUserDataResponse{
+		Id:    "123123123",
+		Name:  "test",
+		Email: "test@test.com",
+	}
+
+	expectedUserName := "test"
+	newUser, err := repositories.InsertUser(testDB, user)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if newUser.UserName != expectedUserName {
+		t.Errorf("new user name is expected %s but got %s\n", expectedUserName, newUser.UserName)
+	}
+
+	t.Cleanup(func() {
+		const sqlStr = `
+			delete from users
+			where  google_id = ? and email = ? and username = ?
+		`
+		testDB.Exec(sqlStr, user.Id, user.Email, user.Name)
+	})
+
+}
+
 func TestExistUser(t *testing.T) {
 	existEmail := models.GoogleUserDataResponse{
 		Email: "exsample@gmail.com",
