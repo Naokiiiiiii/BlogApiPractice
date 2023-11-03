@@ -7,6 +7,7 @@ import (
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
+	"github.com/Naokiiiiiii/BlogApiPractice/repositories/testdata"
 )
 
 func TestInsertUser(t *testing.T) {
@@ -34,6 +35,27 @@ func TestInsertUser(t *testing.T) {
 		testDB.Exec(sqlStr, user.Id, user.Email, user.Name)
 	})
 
+}
+
+func TestSelectUser(t *testing.T) {
+	expectedUserData := testdata.UserTestData
+
+	got, err := repositories.SelectUser(testDB, expectedUserData.Email)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if expectedUserData.GoogleID != got.GoogleID {
+		t.Errorf("GoogleID: get %s but want %s\n", got.GoogleID, expectedUserData.GoogleID)
+	}
+
+	if expectedUserData.UserName != got.UserName {
+		t.Errorf("UserName: get %s but want %s\n", got.UserName, expectedUserData.UserName)
+	}
+
+	if expectedUserData.Email != got.Email {
+		t.Errorf("UserName: get %s but want %s\n", got.Email, expectedUserData.Email)
+	}
 }
 
 func TestExistUser(t *testing.T) {

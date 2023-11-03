@@ -1,6 +1,6 @@
 create table if not exists users (
   user_id integer unsigned auto_increment primary key,
-  google_id varchar(255),
+  google_id integer,
   username varchar(255) not null,
   email varchar(255) not null UNIQUE,
   created_at datetime,
