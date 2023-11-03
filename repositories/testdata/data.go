@@ -33,6 +33,10 @@ var UserTestData = models.User{
 	Email:    "exsample@gmail.com",
 }
 
+var UpdateUserTestData = models.UpdateUser{
+	UserName: "updateName",
+}
+
 var NiceTestData = []models.Nice{
 	models.Nice{
 		NiceID:    1,

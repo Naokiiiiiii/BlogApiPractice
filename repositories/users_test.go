@@ -78,3 +78,14 @@ func TestExistUser(t *testing.T) {
 		t.Errorf("email address %s that should not exist, but it does.", noExistEmail.Email)
 	}
 }
+
+func TestUpdateUser(t *testing.T) {
+	userID := 1
+	expectedUserData := testdata.UpdateUserTestData
+
+	err := repositories.UpdateUser(testDB, userID, expectedUserData)
+
+	if err != nil {
+		t.Error(err)
+	}
+}
