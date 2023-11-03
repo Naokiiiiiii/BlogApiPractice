@@ -26,7 +26,7 @@ func InsertUser(db *sql.DB, googleUser models.GoogleUserDataResponse) (models.Us
 	return newUser, nil
 }
 
-func GetUser(db *sql.DB, email string) (models.User, error) {
+func SelectUser(db *sql.DB, email string) (models.User, error) {
 	const sqlStr = `
 		select * from users where email = ?;
 	`

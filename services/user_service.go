@@ -103,7 +103,7 @@ func (s *MyAppService) GetUserService(idToken string) (models.User, error) {
 
 	email := payload.Claims["email"].(string)
 
-	user, err := repositories.GetUser(s.db, email)
+	user, err := repositories.SelectUser(s.db, email)
 	if err != nil {
 		err = apperrors.GetDataFailed.Wrap(err, "fail to update data")
 		return models.User{}, err
