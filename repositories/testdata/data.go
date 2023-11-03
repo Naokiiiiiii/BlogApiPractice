@@ -26,6 +26,13 @@ var ArticleTestData = []models.Article{
 	},
 }
 
+var UserTestData = models.User{
+	UserID:   1,
+	GoogleID: "123123123",
+	UserName: "naoki",
+	Email:    "exsample@gmail.com",
+}
+
 var NiceTestData = []models.Nice{
 	models.Nice{
 		NiceID:    1,
