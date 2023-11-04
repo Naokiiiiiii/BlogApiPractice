@@ -26,6 +26,17 @@ var ArticleTestData = []models.Article{
 	},
 }
 
+var ArticleInsertTestData = models.Article{
+	Title:    "insertTest",
+	Contents: "testest",
+	UserID:   1,
+}
+
+var ArticleUpdateTestData = models.UpdateArticle{
+	Title:    "Updated Title",
+	Contents: "Updated Contents",
+}
+
 var UserTestData = models.User{
 	UserID:   1,
 	GoogleID: "123123123",

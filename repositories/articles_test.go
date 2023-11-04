@@ -64,14 +64,9 @@ func TestSelectArticleList(t *testing.T) {
 }
 
 func TestInsertArticle(t *testing.T) {
-	article := models.Article{
-		Title:    "insertTest",
-		Contents: "testest",
-		UserID:   1,
-	}
-
+	testArticleTest := testdata.ArticleInsertTestData
 	expectedArticleTitle := "insertTest"
-	newArticle, err := repositories.InsertArticle(testDB, article)
+	newArticle, err := repositories.InsertArticle(testDB, testArticleTest)
 	if err != nil {
 		t.Error(err)
 	}
@@ -84,22 +79,31 @@ func TestInsertArticle(t *testing.T) {
 			delete from articles
 			where title = ? and contents = ? and user_id = ?
 		`
-		testDB.Exec(sqlStr, article.Title, article.Contents, article.UserID)
+		testDB.Exec(sqlStr, testArticleTest.Title, testArticleTest.Contents, testArticleTest.UserID)
 	})
 }
 
 func TestUpdateArticle(t *testing.T) {
 
-	updateArticleID := 2
+	updateArticleTestID := 2
+	updateArticleTestData := testdata.ArticleUpdateTestData
 
-	updateArticleData := models.UpdateArticle{
-		Title:    "Updated Title",
-		Contents: "Updated Contents",
-	}
-
-	err := repositories.UpdateArticle(testDB, updateArticleData, updateArticleID)
+	err := repositories.UpdateArticle(testDB, updateArticleTestData, updateArticleTestID)
 	if err != nil {
 		t.Error(err)
+	}
+
+	updateArticle, err := repositories.SelectArticleDetail(testDB, updateArticleTestID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updateArticle.Title != updateArticleTestData.Title {
+		t.Errorf("Title: get %s but want %s\n", updateArticle.Title, updateArticleTestData.Title)
+	}
+
+	if updateArticle.Contents != updateArticleTestData.Contents {
+		t.Errorf("Contents: get %s but want %s\n", updateArticle.Contents, updateArticleTestData.Contents)
 	}
 }
 
