@@ -64,9 +64,9 @@ func TestSelectArticleList(t *testing.T) {
 }
 
 func TestInsertArticle(t *testing.T) {
-	testArticleTest := testdata.ArticleInsertTestData
+	insertArticleTestData := testdata.ArticleInsertTestData
 	expectedArticleTitle := "insertTest"
-	newArticle, err := repositories.InsertArticle(testDB, testArticleTest)
+	newArticle, err := repositories.InsertArticle(testDB, insertArticleTestData)
 	if err != nil {
 		t.Error(err)
 	}
@@ -79,7 +79,7 @@ func TestInsertArticle(t *testing.T) {
 			delete from articles
 			where title = ? and contents = ? and user_id = ?
 		`
-		testDB.Exec(sqlStr, testArticleTest.Title, testArticleTest.Contents, testArticleTest.UserID)
+		testDB.Exec(sqlStr, insertArticleTestData.Title, insertArticleTestData.Contents, insertArticleTestData.UserID)
 	})
 }
 
