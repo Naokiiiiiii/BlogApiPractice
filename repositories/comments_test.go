@@ -3,7 +3,6 @@ package repositories_test
 import (
 	"testing"
 
-	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories/testdata"
 )
@@ -44,16 +43,13 @@ func TestInsertComment(t *testing.T) {
 }
 
 func TestUpdateComment(t *testing.T) {
-	updateComment := models.UpdateComment{
-		Message: "updateCommnet",
-	}
+	updateCommentTestData := testdata.CommentUpdateTestData
 	updateCommentID := 2
 
-	err := repositories.UpdateComment(testDB, updateComment, updateCommentID)
+	err := repositories.UpdateComment(testDB, updateCommentTestData, updateCommentID)
 	if err != nil {
 		t.Error(err)
 	}
-
 }
 
 func TestDelete(t *testing.T) {

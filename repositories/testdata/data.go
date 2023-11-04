@@ -43,6 +43,10 @@ var CommentInsertTestData = models.Comment{
 	Message:   "CommentInsertTest",
 }
 
+var CommentUpdateTestData = models.models.UpdateComment{
+	Message: "updateCommnet",
+}
+
 var UserTestData = models.User{
 	UserID:   1,
 	GoogleID: "123123123",
