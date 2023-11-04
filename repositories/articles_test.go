@@ -64,9 +64,9 @@ func TestSelectArticleList(t *testing.T) {
 }
 
 func TestInsertArticle(t *testing.T) {
-	testArticleTest := testdata.ArticleInsertTestData
+	insertArticleTestData := testdata.ArticleInsertTestData
 	expectedArticleTitle := "insertTest"
-	newArticle, err := repositories.InsertArticle(testDB, testArticleTest)
+	newArticle, err := repositories.InsertArticle(testDB, insertArticleTestData)
 	if err != nil {
 		t.Error(err)
 	}
