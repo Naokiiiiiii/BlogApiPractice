@@ -93,6 +93,15 @@ func TestUpdateArticle(t *testing.T) {
 		t.Error(err)
 	}
 
+	updateArticle, err := repositories.SelectArticleDetail(testDB, updateArticleTestID)
+
+	if updateArticle.Title != updateArticleTestData.Title {
+		t.Errorf("Title: get %s but want %s\n", updateArticle.Title, updateArticleTestData.Title)
+	}
+
+	if updateArticle.Contents != updateArticleTestData.Contents {
+		t.Errorf("Contents: get %s but want %s\n", updateArticle.Contents, updateArticleTestData.Contents)
+	}
 }
 
 func TestDeleteArticle(t *testing.T) {
