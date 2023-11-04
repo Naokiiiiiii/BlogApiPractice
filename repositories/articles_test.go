@@ -79,7 +79,7 @@ func TestInsertArticle(t *testing.T) {
 			delete from articles
 			where title = ? and contents = ? and user_id = ?
 		`
-		testDB.Exec(sqlStr, testArticleTest.Title, testArticleTest.Contents, testArticleTest.UserID)
+		testDB.Exec(sqlStr, insertArticleTestData.Title, insertArticleTestData.Contents, insertArticleTestData.UserID)
 	})
 }
 
