@@ -32,6 +32,11 @@ var ArticleInsertTestData = models.Article{
 	UserID:   1,
 }
 
+var ArticleUpdateTestData = models.UpdateArticle{
+	Title:    "Updated Title",
+	Contents: "Updated Contents",
+}
+
 var UserTestData = models.User{
 	UserID:   1,
 	GoogleID: "123123123",

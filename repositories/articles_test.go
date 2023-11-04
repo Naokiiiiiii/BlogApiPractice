@@ -85,17 +85,14 @@ func TestInsertArticle(t *testing.T) {
 
 func TestUpdateArticle(t *testing.T) {
 
-	updateArticleID := 2
+	updateArticleTestID := 2
+	updateArticleTestData := testdata.ArticleUpdateTestData
 
-	updateArticleData := models.UpdateArticle{
-		Title:    "Updated Title",
-		Contents: "Updated Contents",
-	}
-
-	err := repositories.UpdateArticle(testDB, updateArticleData, updateArticleID)
+	err := repositories.UpdateArticle(testDB, updateArticleTestData, updateArticleTestID)
 	if err != nil {
 		t.Error(err)
 	}
+
 }
 
 func TestDeleteArticle(t *testing.T) {
