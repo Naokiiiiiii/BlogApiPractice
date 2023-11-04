@@ -5,6 +5,7 @@ import (
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
+	"github.com/Naokiiiiiii/BlogApiPractice/repositories/testdata"
 )
 
 func TestSelectCommentList(t *testing.T) {
@@ -22,14 +23,10 @@ func TestSelectCommentList(t *testing.T) {
 }
 
 func TestInsertComment(t *testing.T) {
-	comment := models.Comment{
-		ArticleID: 1,
-		UserID:    1,
-		Message:   "CommentInsertTest",
-	}
+	insertCommentTestData := testdata.CommentInsertTestData
 
 	expectedCommentID := 3
-	newComment, err := repositories.InsertComment(testDB, comment)
+	newComment, err := repositories.InsertComment(testDB, insertCommentTestData)
 	if err != nil {
 		t.Error(err)
 	}
@@ -42,7 +39,7 @@ func TestInsertComment(t *testing.T) {
 			delete from comments
 			where message = ?
 		`
-		testDB.Exec(sqlStr, comment.Message)
+		testDB.Exec(sqlStr, insertCommentTestData.Message)
 	})
 }
 
