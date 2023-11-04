@@ -43,7 +43,7 @@ var CommentInsertTestData = models.Comment{
 	Message:   "CommentInsertTest",
 }
 
-var CommentUpdateTestData = models.models.UpdateComment{
+var CommentUpdateTestData = models.UpdateComment{
 	Message: "updateCommnet",
 }
 
