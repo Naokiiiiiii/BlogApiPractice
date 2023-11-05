@@ -48,7 +48,16 @@ func TestUpdateComment(t *testing.T) {
 
 	err := repositories.UpdateComment(testDB, updateCommentTestData, updateCommentID)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
+	}
+
+	comment, err := repositories.SelectComment(testDB, updateCommentID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if comment.Message != updateCommentTestData.Message {
+		t.Errorf("update comment message is expected %s but got %s\n", updateCommentTestData.Message, comment.Message)
 	}
 }
 
