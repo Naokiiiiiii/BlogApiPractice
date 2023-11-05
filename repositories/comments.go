@@ -30,7 +30,7 @@ func SelectComment(db *sql.DB, commentID int) (models.Comment, error) {
 	const sqlStr = `
 		select comments.*, users.username 
 		from comments
-		inner join users on articles.user_id = users.user_id
+		inner join users on comments.user_id = users.user_id
 		where comment_id = ?;
 	`
 
