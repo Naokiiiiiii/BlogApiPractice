@@ -26,6 +26,39 @@ func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 	return newComment, nil
 }
 
+func SelectComment(db *sql.DB, commentID int) (models.Comment, error) {
+	const sqlStr = `
+		select comments.*, users.username 
+		from comments
+		inner join users on articles.user_id = users.user_id
+		where comment_id = ?;
+	`
+
+	row := db.QueryRow(sqlStr, commentID)
+	if err := row.Err(); err != nil {
+		return models.Comment{}, err
+	}
+
+	var comment models.Comment
+	var createdTime sql.NullTime
+	var updatedTime sql.NullTime
+
+	err := row.Scan(&comment.CommentID, &comment.ArticleID, &comment.UserID, &comment.Message, &createdTime, &updatedTime, &comment.UserName)
+	if err != nil {
+		return models.Comment{}, err
+	}
+
+	if createdTime.Valid {
+		comment.CreatedAt = createdTime.Time
+	}
+
+	if updatedTime.Valid {
+		comment.UpdatedAt = updatedTime.Time
+	}
+
+	return comment, nil
+}
+
 func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 	const sqlStr = `
 		select comments.*, users.username
