@@ -7,6 +7,20 @@ import (
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories/testdata"
 )
 
+func TestSelectComment(t *testing.T) {
+	articleID := 1
+	got, err := repositories.SelectComment(testDB, articleID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, comment := range got {
+		if comment.ArticleID != articleID {
+			t.Errorf("want comment of articleID %d but got ID %d\n", articleID, comment.ArticleID)
+		}
+	}
+}
+
 func TestSelectCommentList(t *testing.T) {
 	articleID := 1
 	got, err := repositories.SelectCommentList(testDB, articleID)
@@ -51,12 +65,12 @@ func TestUpdateComment(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	comment, err := repositories.SelectComment(testDB, updateCommentID)
+	got, err := repositories.SelectComment(testDB, updateCommentID)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if comment.Message != updateCommentTestData.Message {
+	if got.Message != updateCommentTestData.Message {
 		t.Errorf("update comment message is expected %s but got %s\n", updateCommentTestData.Message, comment.Message)
 	}
 }
