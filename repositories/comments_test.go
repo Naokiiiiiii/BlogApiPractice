@@ -8,16 +8,20 @@ import (
 )
 
 func TestSelectComment(t *testing.T) {
-	articleID := 1
-	got, err := repositories.SelectComment(testDB, articleID)
+	expectedComment := testdata.CommentTestData[0]
+	got, err := repositories.SelectComment(testDB, expectedComment.CommentID)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	for _, comment := range got {
-		if comment.ArticleID != articleID {
-			t.Errorf("want comment of articleID %d but got ID %d\n", articleID, comment.ArticleID)
-		}
+	if got.CommentID != expectedComment.CommentID {
+		t.Errorf("CommentID: get %d but want %d\n", got.CommentID, expectedComment.CommentID)
+	}
+	if got.ArticleID != expectedComment.ArticleID {
+		t.Errorf("UserID: get %d but want %d\n", got.ArticleID, expectedComment.ArticleID)
+	}
+	if got.Message != expectedComment.Message {
+		t.Errorf("UserName: get %s but want %s\n", got.Message, expectedComment.Message)
 	}
 }
 
