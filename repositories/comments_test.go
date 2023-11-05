@@ -71,7 +71,7 @@ func TestUpdateComment(t *testing.T) {
 	}
 
 	if got.Message != updateCommentTestData.Message {
-		t.Errorf("update comment message is expected %s but got %s\n", updateCommentTestData.Message, comment.Message)
+		t.Errorf("update comment message is expected %s but got %s\n", updateCommentTestData.Message, got.Message)
 	}
 }
 
