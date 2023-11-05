@@ -37,6 +37,19 @@ var ArticleUpdateTestData = models.UpdateArticle{
 	Contents: "Updated Contents",
 }
 
+var CommentTestData = []models.Comment{
+	models.Comment{
+		CommentID: 1,
+		ArticleID: 1,
+		Message:   "1st comment yeah",
+	},
+	models.Comment{
+		CommentID: 1,
+		ArticleID: 1,
+		Message:   "2nd comment yeah",
+	},
+}
+
 var CommentInsertTestData = models.Comment{
 	ArticleID: 1,
 	UserID:    1,

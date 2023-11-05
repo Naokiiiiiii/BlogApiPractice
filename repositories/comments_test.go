@@ -7,6 +7,24 @@ import (
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories/testdata"
 )
 
+func TestSelectComment(t *testing.T) {
+	expectedComment := testdata.CommentTestData[0]
+	got, err := repositories.SelectComment(testDB, expectedComment.CommentID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if got.CommentID != expectedComment.CommentID {
+		t.Errorf("CommentID: get %d but want %d\n", got.CommentID, expectedComment.CommentID)
+	}
+	if got.ArticleID != expectedComment.ArticleID {
+		t.Errorf("UserID: get %d but want %d\n", got.ArticleID, expectedComment.ArticleID)
+	}
+	if got.Message != expectedComment.Message {
+		t.Errorf("UserName: get %s but want %s\n", got.Message, expectedComment.Message)
+	}
+}
+
 func TestSelectCommentList(t *testing.T) {
 	articleID := 1
 	got, err := repositories.SelectCommentList(testDB, articleID)
@@ -51,13 +69,13 @@ func TestUpdateComment(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	comment, err := repositories.SelectComment(testDB, updateCommentID)
+	got, err := repositories.SelectComment(testDB, updateCommentID)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if comment.Message != updateCommentTestData.Message {
-		t.Errorf("update comment message is expected %s but got %s\n", updateCommentTestData.Message, comment.Message)
+	if got.Message != updateCommentTestData.Message {
+		t.Errorf("update comment message is expected %s but got %s\n", updateCommentTestData.Message, got.Message)
 	}
 }
 
