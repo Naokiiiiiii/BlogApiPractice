@@ -1,6 +1,8 @@
 package repositories_test
 
 import (
+	"database/sql"
+	"errors"
 	"testing"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
@@ -79,14 +81,17 @@ func TestUpdateComment(t *testing.T) {
 	}
 }
 
-func TestDelete(t *testing.T) {
+func TestDeleteComment(t *testing.T) {
 	deleteCommentID := 1
 
 	err := repositories.DeleteArticle(testDB, deleteCommentID)
 
 	if err != nil {
-		if err != nil {
-			t.Errorf("DeleteComment returned an error: %v", err)
-		}
+		t.Fatalf("DeleteComment returned an error: %v", err)
+	}
+
+	_, err = repositories.SelectComment(testDB, deleteCommentID)
+	if !errors.Is(err, sql.ErrNoRows) {
+		t.Errorf("comment is not deleted\n")
 	}
 }
