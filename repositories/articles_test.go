@@ -1,6 +1,8 @@
 package repositories_test
 
 import (
+	"database/sql"
+	"errors"
 	"testing"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
@@ -111,8 +113,12 @@ func TestDeleteArticle(t *testing.T) {
 	deleteArticleID := 3
 
 	err := repositories.DeleteArticle(testDB, deleteArticleID)
-
 	if err != nil {
-		t.Errorf("DeleteArticle returned an error: %v", err)
+		t.Fatal(err)
+	}
+
+	_, err = repositories.SelectArticleDetail(testDB, deleteArticleID)
+	if !errors.Is(err, sql.ErrNoRows) {
+		t.Errorf("ArticleID %d is not deleted\n", deleteArticleID)
 	}
 }
