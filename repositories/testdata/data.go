@@ -78,3 +78,8 @@ var NiceTestData = []models.Nice{
 		ArticleID: 1,
 	},
 }
+
+var DeleteNiceTestData = models.Nice{
+	UserID:    1,
+	ArticleID: 2,
+}

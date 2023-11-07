@@ -1,10 +1,13 @@
 package repositories_test
 
 import (
+	"database/sql"
+	"errors"
 	"testing"
 
 	"github.com/Naokiiiiiii/BlogApiPractice/models"
 	"github.com/Naokiiiiiii/BlogApiPractice/repositories"
+	"github.com/Naokiiiiiii/BlogApiPractice/repositories/testdata"
 )
 
 func TestSelectNiceList(t *testing.T) {
@@ -43,4 +46,18 @@ func TestInsertNice(t *testing.T) {
 		`
 		testDB.Exec(sqlStr, nice.UserID, nice.ArticleID)
 	})
+}
+
+func TestDeleteNice(t *testing.T) {
+	deleteNice := testdata.DeleteNiceTestData
+
+	err := repositories.DeleteNice(testDB, deleteNice)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = repositories.ExistNice(testDB, deleteNice)
+	if !errors.Is(err, sql.ErrNoRows) {
+		t.Errorf("nice is not deleted\n")
+	}
 }

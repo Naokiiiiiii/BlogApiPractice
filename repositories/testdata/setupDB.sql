@@ -51,3 +51,5 @@ insert into comments (article_id, user_id, message, created_at, updated_at) valu
 insert into comments (article_id, user_id, message, created_at, updated_at) values (1, 1, '2nd comment yeah', now(), now());
 
 insert into nices (article_id, user_id, created_at) values (1, 1, now());
+
+insert into nices (article_id, user_id, created_at) values (2, 1, now());
