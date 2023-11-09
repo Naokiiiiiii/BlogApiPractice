@@ -1,9 +1,22 @@
 version: '3.3'
 services:
+  web:
+    container_name: app-blog-app-backend
+    build:
+      context: .
+      dockerfile: ./infra/go/Dockerfile
+    volumes:
+      - .:/go/src/github.com/BlogAppBackend
+    ports:
+      - '8080:8080'
+    tty: true
+    environment:
+      - TZ=Asia/Tokyo
+
   mysql:
     platform: linux/x86_64
     image: mysql:5.7
-    container_name: db-blog-practice
+    container_name: db-blog-app-backend
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
