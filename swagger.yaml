@@ -204,6 +204,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+    delete:
+      summary: 指定したidの記事を削除する
+      tags: ['articles']
+      parameters:
+        - in: path
+          name: article_id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'SuccessResponse'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 
   /comment:
     post:
