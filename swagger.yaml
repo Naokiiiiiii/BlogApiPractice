@@ -272,6 +272,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+    delete:
+      summary: 指定したidのコメントを削除する
+      tags: ['comments']
+      parameters:
+        - in: path
+          name: comment_id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'SuccessResponse'
+        '400':
+          description: 'Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 
   /nice:
     post:
