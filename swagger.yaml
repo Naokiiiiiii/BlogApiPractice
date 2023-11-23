@@ -390,9 +390,9 @@ components:
       type: object
       properties:
         user_id:
-          type: string
+          type: number
         google_id:
-          type: string
+          type: number
         user_name:
           type: string
         email:
