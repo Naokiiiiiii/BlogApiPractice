@@ -33,7 +33,7 @@ func main() {
 	config := oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIANT_ID"),
 		ClientSecret: os.Getenv("GOOGLE_CLIANT_SECRET"),
-		RedirectURL:  "http://localhost:5173",
+		RedirectURL:  "http://localhost:5173/login",
 		Endpoint:     google.Endpoint,
 		Scopes:       []string{"profile", "email"},
 	}
