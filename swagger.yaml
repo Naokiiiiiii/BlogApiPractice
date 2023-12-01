@@ -331,6 +331,13 @@ components:
           type: string
         updated_at:
           type: string
+      required:
+        - user_id
+        - google_id
+        - user_name
+        - email
+        - created_at
+        - updated_at
 
     article:
       type: object
