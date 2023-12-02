@@ -21,6 +21,7 @@ func NewRouter(db *sql.DB, config oauth2.Config) *mux.Router {
 	r := mux.NewRouter()
 
 	r.Use(middlewares.CorsMiddleware)
+	r.Use(middlewares.LoggingMiddleware)
 
 	// 認証が必要ないAPI
 	// ログインAPI
