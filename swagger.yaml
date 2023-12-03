@@ -353,6 +353,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/comment'
+      required:
+        - id
+        - title
+        - contents
+        - user_id
+        - user_name
+        - created_at
 
     comment:
       type: object
