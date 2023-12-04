@@ -349,6 +349,8 @@ components:
           type: integer
         created_at:
           type: string
+        updated_at:
+          type: string
         comment_list:
           type: array
           items:
@@ -360,6 +362,7 @@ components:
         - user_id
         - user_name
         - created_at
+        - updated_at
 
     comment:
       type: object
