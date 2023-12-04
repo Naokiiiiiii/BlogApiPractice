@@ -442,7 +442,7 @@ components:
         contents:
           type: string
         user_id:
-          type: string
+          type: number
       required:
         - title
         - contents
