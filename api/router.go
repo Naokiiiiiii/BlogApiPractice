@@ -38,19 +38,19 @@ func NewRouter(db *sql.DB, config oauth2.Config) *mux.Router {
 	authRequired.HandleFunc("/user/{id:[0-9]+}", uCon.UpdateUserHandler) //.Methods(http.MethodPut)
 
 	// 記事API
-	authRequired.HandleFunc("/article", aCon.PostArticleHandler)               //.Methods(http.MethodPost)
-	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.UpdateArticleHandler) //.Methods(http.MethodPut)
-	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.DeleteArticleHandler) //.Methods(http.MethodDelete)
-	authRequired.HandleFunc("/article/list", aCon.ArticleListHandler)          //.Methods(http.MethodGet)
-	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler) //.Methods(http.MethodGet)
+	authRequired.HandleFunc("/article", aCon.PostArticleHandler).Methods(http.MethodPost, http.MethodOptions)
+	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.UpdateArticleHandler).Methods(http.MethodPut, http.MethodOptions)
+	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.DeleteArticleHandler).Methods(http.MethodDelete, http.MethodOptions)
+	authRequired.HandleFunc("/article/list", aCon.ArticleListHandler).Methods(http.MethodGet, http.MethodOptions)
+	authRequired.HandleFunc("/article/{id:[0-9]+}", aCon.ArticleDetailHandler).Methods(http.MethodGet, http.MethodOptions)
 
 	// いいねAPI
-	authRequired.HandleFunc("/article/nice", nCon.CreateOrDeleteNiceHandler) //.Methods(http.MethodPost)
+	authRequired.HandleFunc("/article/nice", nCon.CreateOrDeleteNiceHandler).Methods(http.MethodPost, http.MethodOptions)
 
 	// コメントAPI
-	authRequired.HandleFunc("/comment", cCon.PostCommentHandler)               //.Methods(http.MethodPost)
-	authRequired.HandleFunc("/comment/{id:[0-9]+}", cCon.UpdateCommentHandler) //.Methods(http.MethodPut)
-	authRequired.HandleFunc("/comment/{id:[0-9]+}", cCon.DeleteCommentHandler) //.Methods(http.MethodDelete)
+	authRequired.HandleFunc("/comment", cCon.PostCommentHandler).Methods(http.MethodPost, http.MethodOptions)
+	authRequired.HandleFunc("/comment/{id:[0-9]+}", cCon.UpdateCommentHandler).Methods(http.MethodPut, http.MethodOptions)
+	authRequired.HandleFunc("/comment/{id:[0-9]+}", cCon.DeleteCommentHandler).Methods(http.MethodDelete, http.MethodOptions)
 
 	return r
 }
