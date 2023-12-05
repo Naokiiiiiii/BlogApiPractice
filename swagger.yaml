@@ -365,7 +365,7 @@ components:
           type: string
         updated_at:
           type: string
-        comment_list:
+        comments:
           type: array
           items:
             $ref: '#/components/schemas/comment'
