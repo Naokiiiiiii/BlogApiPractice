@@ -78,7 +78,7 @@ func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
 		var comment models.Comment
 		var createdTime sql.NullTime
 		var updatedTime sql.NullTime
-		rows.Scan(&comment.CommentID, &comment.ArticleID, &comment.UserID, &comment.UserName, &comment.Message, &createdTime, &updatedTime)
+		rows.Scan(&comment.CommentID, &comment.ArticleID, &comment.UserID, &comment.Message, &createdTime, &updatedTime, &comment.UserName)
 
 		if createdTime.Valid {
 			comment.CreatedAt = createdTime.Time
