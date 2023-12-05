@@ -198,6 +198,10 @@ paths:
       responses:
         '200':
           description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nullObject'
         '400':
           description: 'Error'
           content:
@@ -216,6 +220,10 @@ paths:
       responses:
         '200':
           description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nullObject'
         '400':
           description: 'Error'
           content:
@@ -509,3 +517,7 @@ components:
           type: string
         Message:
           type: string
+    nullObject:
+      type: object
+      nullable: true
+      example: null
