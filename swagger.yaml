@@ -505,6 +505,10 @@ components:
           type: number
         message:
           type: string
+      required:
+        - article_id
+        - user_id
+        - message
 
     putCommentRequest:
       type: object
