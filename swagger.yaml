@@ -387,8 +387,22 @@ components:
           type: number
         user_id:
           type: number
+        user_name:
+          type: string
         message:
           type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      required:
+        - comment_id
+        - article_id
+        - user_id
+        - user_name
+        - message
+        - created_at
+        - updated_at
 
     nice:
       type: object
