@@ -198,6 +198,10 @@ paths:
       responses:
         '200':
           description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nullObject'
         '400':
           description: 'Error'
           content:
@@ -216,6 +220,10 @@ paths:
       responses:
         '200':
           description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nullObject'
         '400':
           description: 'Error'
           content:
@@ -266,6 +274,10 @@ paths:
       responses:
         '200':
           description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nullObject'
         '400':
           description: 'Error'
           content:
@@ -284,6 +296,10 @@ paths:
       responses:
         '200':
           description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nullObject'
         '400':
           description: 'Error'
           content:
@@ -333,7 +349,6 @@ components:
           type: string
       required:
         - user_id
-        - google_id
         - user_name
         - email
         - created_at
@@ -356,10 +371,20 @@ components:
           type: integer
         created_at:
           type: string
-        comment_list:
+        updated_at:
+          type: string
+        comments:
           type: array
           items:
             $ref: '#/components/schemas/comment'
+      required:
+        - id
+        - title
+        - contents
+        - user_id
+        - user_name
+        - created_at
+        - updated_at
 
     comment:
       type: object
@@ -370,8 +395,22 @@ components:
           type: number
         user_id:
           type: number
+        user_name:
+          type: string
         message:
           type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      required:
+        - comment_id
+        - article_id
+        - user_id
+        - user_name
+        - message
+        - created_at
+        - updated_at
 
     nice:
       type: object
@@ -415,6 +454,12 @@ components:
           type: string
         updated_at:
           type: string
+      required:
+        - user_id
+        - user_name
+        - email
+        - created_at
+        - updated_at
 
     putUserRequest:
       type: object
@@ -446,7 +491,7 @@ components:
         contents:
           type: string
         user_id:
-          type: string
+          type: number
       required:
         - title
         - contents
@@ -475,6 +520,10 @@ components:
           type: number
         message:
           type: string
+      required:
+        - article_id
+        - user_id
+        - message
 
     putCommentRequest:
       type: object
@@ -501,3 +550,7 @@ components:
           type: string
         Message:
           type: string
+    nullObject:
+      type: object
+      nullable: true
+      example: null

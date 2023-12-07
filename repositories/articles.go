@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	articleNumPerPage = 5
+	articleNumPerPage = 100
 )
 
 func InsertArticle(db *sql.DB, article models.Article) (models.Article, error) {

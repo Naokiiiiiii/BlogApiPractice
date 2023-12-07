@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"context"
 	"log"
 	"net/http"
 
@@ -24,13 +23,11 @@ func (rsw *resLoggingWriter) WriteHeader(code int) {
 
 func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-
-		traceID := common.GetTraceID(req.Context())
+		traceID := newTraceID()
 
 		log.Printf("[%d]%s %s\n", traceID, req.RequestURI, req.Method)
 
-		ctx := req.Context()
-		ctx = context.WithValue(ctx, traceIDKey{}, traceID)
+		ctx := common.SetTraceID(req.Context(), traceID)
 		req = req.WithContext(ctx)
 		rlw := NewResLoggingWriter(w)
 
