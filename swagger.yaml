@@ -434,13 +434,6 @@ components:
 
     getUserResponse:
       type: object
-      required:
-        - user_id
-        - google_id
-        - user_name
-        - email
-        - created_at
-        - updated_at
       properties:
         user_id:
           type: number
