@@ -27,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          path: main
+          path: master
       - name: Checkout swagger-ui
         uses: actions/checkout@v3
         with:
@@ -35,13 +35,13 @@ jobs:
           ref: 'v4.15.5'
           path: swagger-ui
       - name: Inject Swagger static files
-        run: cp -n swagger-ui/dist/* main/docs/dist/swagger-ui
+        run: cp -n swagger-ui/dist/* master/docs/dist/swagger-ui
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'main/docs/dist'
+          path: 'master/docs/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
