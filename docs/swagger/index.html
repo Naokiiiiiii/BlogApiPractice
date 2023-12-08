@@ -18,8 +18,7 @@
     <script>
       window.onload = () => {
         window.ui = SwaggerUIBundle({
-          url: new URL(location).searchParams.get('q') || 'swagger.yml',
-          deepLinking: true,
+          url: '../openapi.yml',
           dom_id: '#swagger-ui',
           presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
           layout: 'StandaloneLayout',
