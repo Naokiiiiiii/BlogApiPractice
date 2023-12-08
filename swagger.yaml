@@ -55,6 +55,10 @@ paths:
       responses:
         '200':
           description: 'SuccessResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nullObject'
         '400':
           description: 'Error'
           content:
