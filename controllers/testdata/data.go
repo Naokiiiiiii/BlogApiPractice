@@ -9,7 +9,7 @@ var articleTestData = []models.Article{
 		Contents:    "This is my first blog",
 		UserID:      1,
 		UserName:    "naoki",
-		NiceNum:     2,
+		NiceList:    niceTestData,
 		CommentList: commentTestData,
 	},
 	models.Article{
@@ -18,7 +18,6 @@ var articleTestData = []models.Article{
 		Contents: "Second blog post",
 		UserID:   1,
 		UserName: "naoki",
-		NiceNum:  4,
 	},
 }
 
@@ -36,5 +35,13 @@ var commentTestData = []models.Comment{
 		UserID:    1,
 		UserName:  "naoki",
 		Message:   "welcome",
+	},
+}
+
+var niceTestData = []models.Nice{
+	models.Nice{
+		NiceID:    1,
+		UserID:    1,
+		ArticleID: 1,
 	},
 }
