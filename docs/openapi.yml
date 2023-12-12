@@ -371,8 +371,6 @@ components:
           type: integer
         user_name:
           type: string
-        nice_num:
-          type: integer
         created_at:
           type: string
         updated_at:
@@ -381,6 +379,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/comment'
+        nices:
+          type: array
+          items:
+            $ref: '#/components/schemas/nice'
       required:
         - id
         - title

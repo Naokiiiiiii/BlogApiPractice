@@ -84,7 +84,7 @@ func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) 
 	}
 
 	article.CommentList = append(article.CommentList, commentList...)
-	article.NiceNum = len(niceList)
+	article.NiceList = append(article.NiceList, niceList...)
 
 	return article, nil
 }
