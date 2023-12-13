@@ -320,6 +320,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/postNiceRequest'
+        required: true
       responses:
         '200':
           description: 'SuccessResponse'
@@ -535,6 +536,7 @@ components:
           type: number
         user_id:
           type: number
+
     postGoogleCallbackRequest:
       type: object
       properties:
