@@ -89,16 +89,16 @@ func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) 
 	return article, nil
 }
 
-func (s *MyAppService) PostArticleService(article models.Article) (models.Article, error) {
+func (s *MyAppService) PostArticleService(article models.Article) error {
 
-	newArticle, err := repositories.InsertArticle(s.db, article)
+	_, err := repositories.InsertArticle(s.db, article)
 
 	if err != nil {
 		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
-		return models.Article{}, err
+		return err
 	}
 
-	return newArticle, nil
+	return nil
 }
 
 func (s *MyAppService) GetArticleListService(page int) ([]models.Article, error) {

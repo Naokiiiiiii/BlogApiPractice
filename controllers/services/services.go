@@ -5,7 +5,7 @@ import (
 )
 
 type ArticleServicer interface {
-	PostArticleService(article models.Article) (models.Article, error)
+	PostArticleService(article models.Article) (error)
 	GetArticleListService(page int) ([]models.Article, error)
 	GetArticleService(articleID int) (models.Article, error)
 	UpdateArticleService(articleID int, updateArticle models.UpdateArticle) error

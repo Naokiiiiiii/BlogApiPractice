@@ -26,13 +26,13 @@ func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.
 		apperrors.ErrorHandler(w, req, err)
 	}
 
-	article, err := c.service.PostArticleService(reqArticle)
+	err := c.service.PostArticleService(reqArticle)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
 	}
 
-	json.NewEncoder(w).Encode(article)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func (c *ArticleController) ArticleListHandler(w http.ResponseWriter, req *http.Request) {
@@ -67,13 +67,13 @@ func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *htt
 		return
 	}
 
-	article, err := c.service.GetArticleService(articleID)
+	_, err = c.service.GetArticleService(articleID)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
 	}
 
-	json.NewEncoder(w).Encode(article)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func (c *ArticleController) UpdateArticleHandler(w http.ResponseWriter, req *http.Request) {
@@ -98,7 +98,7 @@ func (c *ArticleController) UpdateArticleHandler(w http.ResponseWriter, req *htt
 		return
 	}
 
-	json.NewEncoder(w).Encode(err)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func (c *ArticleController) DeleteArticleHandler(w http.ResponseWriter, req *http.Request) {
@@ -116,5 +116,5 @@ func (c *ArticleController) DeleteArticleHandler(w http.ResponseWriter, req *htt
 		return
 	}
 
-	json.NewEncoder(w).Encode(err)
+	w.WriteHeader(http.StatusNoContent)
 }
